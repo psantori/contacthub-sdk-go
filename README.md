@@ -11,7 +11,7 @@ config := &client.Config{
   APIkey:        "*** API KEY ****",
 }
 
-apiClient := client.New(config)
+apiClient, err := client.New(config)
 ```
 You can access the API methods via apiClient.Customers, apiClient.Events, etc.
 
