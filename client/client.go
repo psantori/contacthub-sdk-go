@@ -11,7 +11,7 @@ import (
 const (
 	version        = "0.0.1"
 	defaultBaseURL = "https://api.contactlab.it/"
-	mediaType      = "application/json"
+	contentType    = "application/json"
 	format         = "json"
 	userAgent      = "golang+contacthub/" + version
 )
@@ -87,8 +87,10 @@ func (c *Client) NewRequest(method, path string, body interface{}) (*http.Reques
 	}
 
 	bearerToken := "Bearer " + c.Config.APIkey
+
+	req.Header.Add("Accept", contentType)
 	req.Header.Add("Authorization", bearerToken)
-	req.Header.Add("Accept", mediaType)
+	req.Header.Add("Content-Type", contentType)
 	req.Header.Add("User-Agent", userAgent)
 	return req, nil
 }
