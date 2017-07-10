@@ -99,7 +99,10 @@ func (c *Client) Do(req *http.Request, into interface{}) (*http.Response, error)
 	if err != nil {
 		return nil, err
 	}
-
+	err = handleErrors(resp)
+	if err != nil {
+		return resp, err
+	}
 	if err := json.NewDecoder(resp.Body).Decode(into); err != nil {
 		return nil, err
 	}
