@@ -32,7 +32,7 @@ type Contacts struct {
 	Email         null.String    `json:"email,omitempty"`
 	Fax           null.String    `json:"fax,omitempty"`
 	MobilePhone   null.String    `json:"mobilePhone,omitempty"`
-	Phone         null.String    `json:"Phone,omitempty"`
+	Phone         null.String    `json:"phone,omitempty"`
 	OtherContacts []OtherContact `json:"otherContacts,omitempty"`
 	MobileDevices []MobileDevice `json:"mobileDevices,omitempty"`
 }
