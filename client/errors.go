@@ -6,6 +6,8 @@ import (
 	"io/ioutil"
 	"net/http"
 
+	"strings"
+
 	"github.com/guregu/null"
 )
 
@@ -24,8 +26,14 @@ type ApiError struct {
 }
 
 func (r *ErrorResponse) Error() string {
+	messages := make([]string, 1+len(r.Errors))
+	messages[0] = r.Message
+
+	for i, apiError := range r.Errors {
+		messages[i+1] = fmt.Sprintf("%v (%v)", apiError.Message, apiError.Path)
+	}
 	return fmt.Sprintf("(%d) %v %v: %v",
-		r.Response.StatusCode, r.Response.Request.Method, r.Response.Request.URL, r.Message)
+		r.Response.StatusCode, r.Response.Request.Method, r.Response.Request.URL, strings.Join(messages, ", "))
 }
 
 func handleErrors(r *http.Response) error {
