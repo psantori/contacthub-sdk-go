@@ -3,6 +3,7 @@ package client
 import (
 	"bytes"
 	"encoding/json"
+	"errors"
 	"net/http"
 	"net/url"
 	"time"
@@ -50,10 +51,16 @@ type Client struct {
 }
 
 // New creates a new API client
-func New(config *Config) *Client {
+func New(config *Config) (*Client, error) {
 
 	if config.APIVersion == "" {
 		config.APIVersion = "v1"
+	}
+	if config.APIkey == "" {
+		return nil, errors.New("APIkey is a required field")
+	}
+	if config.WorkspaceID == "" {
+		return nil, errors.New("WorkspaceID is a required field")
 	}
 
 	baseURL, _ := url.Parse(defaultBaseURL)
@@ -69,7 +76,7 @@ func New(config *Config) *Client {
 
 	c.Customers = &CustomerService{client: c}
 	c.Events = &EventService{client: c}
-	return c
+	return c, nil
 }
 
 // NewRequest creates an API request. A relative URL can be provided in urlStr
