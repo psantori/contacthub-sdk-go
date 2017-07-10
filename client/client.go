@@ -9,19 +9,21 @@ import (
 )
 
 const (
-	version        = "0.0.1"
-	defaultBaseURL = "https://api.contactlab.it/"
-	contentType    = "application/json"
-	format         = "json"
-	userAgent      = "golang+contacthub/" + version
+	// DefaultTimeout is the default HTTP client timeout
+	DefaultTimeout time.Duration = 5
+	version                      = "0.0.1"
+	defaultBaseURL               = "https://api.contactlab.it/"
+	contentType                  = "application/json"
+	userAgent                    = "golang+contacthub/" + version
 )
 
 // Config contains the basic Client configuration
 type Config struct {
 	APIkey        string
 	APIVersion    string
-	WorkspaceID   string
 	DefaultNodeID string
+	WorkspaceID   string
+	Timeout       time.Duration
 }
 
 // QueryParams is simply a map of query paramss
@@ -57,8 +59,11 @@ func New(config *Config) *Client {
 	baseURL, _ := url.Parse(defaultBaseURL)
 	baseURL.Path = "hub/" + config.APIVersion + "/" + "workspaces/" + config.WorkspaceID + "/"
 
+	if config.Timeout < 1 {
+		config.Timeout = DefaultTimeout
+	}
 	httpClient := &http.Client{
-		Timeout: 5 * time.Second,
+		Timeout: config.Timeout * time.Second,
 	}
 	c := &Client{client: httpClient, BaseURL: baseURL, UserAgent: userAgent, Config: config}
 
