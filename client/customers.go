@@ -58,6 +58,9 @@ func (s *CustomerService) Get(ID string) (*CustomerResponse, error) {
 
 // Create creates a new Customer on ContactHub
 func (s *CustomerService) Create(customer *Customer) (*CustomerResponse, error) {
+	if len(customer.NodeID) == 0 {
+		customer.NodeID = s.client.Config.DefaultNodeID
+	}
 	req, err := s.client.NewRequest(http.MethodPost, customerBasePath, customer)
 	if err != nil {
 		return nil, err
