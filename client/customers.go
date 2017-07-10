@@ -11,11 +11,6 @@ const (
 	customerBasePath = "customers"
 )
 
-type listResponse struct {
-	PageInfo  PageInfo           `json:"page"`
-	Customers []CustomerResponse `json:"elements"`
-}
-
 // Customer contains all editable fields for ContactHub Customer objects
 type Customer struct {
 	NodeID             string                 `json:"nodeId,required"`
@@ -37,6 +32,11 @@ type CustomerResponse struct {
 // CustomerService provides access to the Customers API
 type CustomerService struct {
 	client *Client
+}
+
+type customerListResponse struct {
+	PageInfo  PageInfo           `json:"page"`
+	Customers []CustomerResponse `json:"elements"`
 }
 
 // Get returns an individual customer by the ContactHub Customer ID
@@ -112,7 +112,7 @@ func (s *CustomerService) list(params *ListParams, basePath string) ([]CustomerR
 	}
 	path := addQuery(basePath, params.QueryParams)
 
-	var List = &listResponse{}
+	var List = &customerListResponse{}
 	req, err := s.client.NewRequest(http.MethodGet, path, nil)
 	if err != nil {
 		return nil, nil, err
