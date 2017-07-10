@@ -42,7 +42,7 @@ type Client struct {
 	// Basic config for contacthub API
 	Config *Config
 
-	Customers CustomerService
+	Customers *CustomerService
 }
 
 // NewClient creates a new API client
@@ -60,7 +60,7 @@ func NewClient(config *Config) *Client {
 	}
 	c := &Client{client: httpClient, BaseURL: baseURL, UserAgent: userAgent, Config: config}
 
-	c.Customers = CustomerService{client: c}
+	c.Customers = &CustomerService{client: c}
 	return c
 }
 

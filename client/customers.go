@@ -40,7 +40,7 @@ type CustomerService struct {
 }
 
 // Get returns an individual customer by the ContactHub Customer ID
-func (s CustomerService) Get(ID string) (*CustomerResponse, error) {
+func (s *CustomerService) Get(ID string) (*CustomerResponse, error) {
 	path := fmt.Sprintf("%s/%s", customerBasePath, ID)
 	req, err := s.client.NewRequest(http.MethodGet, path, nil)
 	if err != nil {
@@ -57,7 +57,7 @@ func (s CustomerService) Get(ID string) (*CustomerResponse, error) {
 }
 
 // Create creates a new Customer on ContactHub
-func (s CustomerService) Create(customer *Customer) (*CustomerResponse, error) {
+func (s *CustomerService) Create(customer *Customer) (*CustomerResponse, error) {
 	req, err := s.client.NewRequest(http.MethodPost, customerBasePath, customer)
 	if err != nil {
 		return nil, err
@@ -75,7 +75,7 @@ func (s CustomerService) Create(customer *Customer) (*CustomerResponse, error) {
 }
 
 // Update updates a Customer on ContactHub
-func (s CustomerService) Update(ID string, customer *Customer) (*CustomerResponse, error) {
+func (s *CustomerService) Update(ID string, customer *Customer) (*CustomerResponse, error) {
 	path := fmt.Sprintf("%s/%s", customerBasePath, ID)
 	req, err := s.client.NewRequest(http.MethodPost, path, customer)
 	if err != nil {
@@ -95,7 +95,7 @@ func (s CustomerService) Update(ID string, customer *Customer) (*CustomerRespons
 
 // List requests all customers from the default Node
 // The Node ID can be overriden via the QueryParams
-func (s CustomerService) List(params *ListParams) ([]CustomerResponse, PageInfo, error) {
+func (s *CustomerService) List(params *ListParams) ([]CustomerResponse, PageInfo, error) {
 	params.preparePagination()
 	customers, pageInfo, err := s.list(params, customerBasePath)
 	if err != nil {
@@ -105,7 +105,7 @@ func (s CustomerService) List(params *ListParams) ([]CustomerResponse, PageInfo,
 	return customers, *pageInfo, err
 }
 
-func (s CustomerService) list(params *ListParams, basePath string) ([]CustomerResponse, *PageInfo, error) {
+func (s *CustomerService) list(params *ListParams, basePath string) ([]CustomerResponse, *PageInfo, error) {
 	// build url
 	if _, ok := params.QueryParams["nodeId"]; !ok {
 		params.QueryParams["nodeId"] = s.client.Config.DefaultNodeID
