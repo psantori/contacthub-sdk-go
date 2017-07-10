@@ -47,8 +47,8 @@ type Client struct {
 	Events *EventService
 }
 
-// NewClient creates a new API client
-func NewClient(config *Config) *Client {
+// New creates a new API client
+func New(config *Config) *Client {
 
 	if config.APIVersion == "" {
 		config.APIVersion = "v1"
