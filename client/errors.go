@@ -6,16 +6,16 @@ import (
 	"io/ioutil"
 	"net/http"
 
-	"strings"
+	"github.com/guregu/null/zero"
 
-	"github.com/guregu/null"
+	"strings"
 )
 
 type ErrorResponse struct {
 	*http.Response
 	Message string      `json:"message"`
 	Logref  string      `json:"logref"`
-	Data    null.String `json:"data"`
+	Data    zero.String `json:"data"`
 	Errors  []ApiError  `json:"errors"`
 }
 
@@ -23,6 +23,7 @@ type ApiError struct {
 	Message string      `json:"message,omitempty"`
 	Path    string      `json:"path,omitempty"`
 	Data    interface{} `json:"data"`
+	Code    zero.String `json:"code"`
 }
 
 func (r *ErrorResponse) Error() string {
