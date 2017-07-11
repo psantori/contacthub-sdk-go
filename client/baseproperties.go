@@ -20,7 +20,7 @@ type BaseProperties struct {
 	Contacts      *Contacts      `json:"contacts,omitempty"`
 	Address       *Address       `json:"address,omitempty"`
 	Credential    *Credential    `json:"credential,omitempty"`
-	Educations    []Education    `json:"education,omitempty"`
+	Educations    []Education    `json:"educations,omitempty"`
 	Likes         []Like         `json:"likes,omitempty"`
 	SocialProfile *SocialProfile `json:"socialProfile,omitempty"`
 	Jobs          []Job          `json:"jobs,omitempty"`
