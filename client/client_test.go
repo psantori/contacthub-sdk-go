@@ -13,20 +13,20 @@ var (
 
 	mux *http.ServeMux
 
-	client *Client
+	testClient *Client
 )
 
 func setup() {
 	mux = http.NewServeMux()
 	mockServer = httptest.NewServer(mux)
 
-	client, _ = New(&Config{
+	testClient, _ = New(&Config{
 		DefaultNodeID: "fakenodeid",
 		WorkspaceID:   "fakeworkspaceid",
 		APIkey:        "fakeapikey",
 	})
 	url, _ := url.Parse(mockServer.URL)
-	client.BaseURL = url
+	testClient.BaseURL = url
 }
 func teardown() {
 	mockServer.Close()
@@ -80,8 +80,8 @@ func TestHttpError(t *testing.T) {
 		http.Error(w, "Nope", 400)
 	})
 
-	req, _ := client.NewRequest(http.MethodGet, "/", nil)
-	_, err := client.Do(req, nil)
+	req, _ := testClient.NewRequest(http.MethodGet, "/", nil)
+	_, err := testClient.Do(req, nil)
 
 	if err == nil {
 		t.Error("Expected error.")
