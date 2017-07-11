@@ -3,12 +3,12 @@ package client
 import (
 	"fmt"
 	"net/http"
-	"reflect"
 	"strconv"
 	"testing"
 	"time"
 
 	"github.com/guregu/null"
+	"github.com/kylelemons/godebug/pretty"
 )
 
 func TestCustomerList(t *testing.T) {
@@ -88,10 +88,8 @@ func TestCustomerList(t *testing.T) {
 			},
 		},
 	}
-	if !reflect.DeepEqual(customers, expectedCustomers) {
-		t.Errorf("Got: %#+v\n", customers)
-		t.Errorf("\n\n")
-		t.Errorf("Expected: %#+v\n", expectedCustomers)
+	if diff := pretty.Compare(customers, expectedCustomers); diff != "" {
+		t.Errorf("Client.List: invalid value for struct: (-got +expected)\n%s", diff)
 	}
 
 	expectedPageInfo := PageInfo{
@@ -101,10 +99,9 @@ func TestCustomerList(t *testing.T) {
 		TotalPages:              1,
 		Page:                    0,
 	}
-	if !reflect.DeepEqual(pageInfo, expectedPageInfo) {
-		t.Errorf("Got: %#+v\n", pageInfo)
-		t.Errorf("\n\n")
-		t.Errorf("Expected: %#+v\n", expectedPageInfo)
+
+	if diff := pretty.Compare(pageInfo, expectedPageInfo); diff != "" {
+		t.Errorf("Client.List: invalid value for struct: (-got +expected)\n%s", diff)
 	}
 
 }
@@ -174,10 +171,8 @@ func TestCustomerGet(t *testing.T) {
 			},
 		},
 	}
-	if !reflect.DeepEqual(customer, expected) {
-		t.Errorf("Got: %#+v\n", customer)
-		t.Errorf("\n\n")
-		t.Errorf("Expected: %#+v\n", expected)
+	if diff := pretty.Compare(customer, expected); diff != "" {
+		t.Errorf("Client.Get: invalid value for struct: (-got +expected)\n%s", diff)
 	}
 
 }

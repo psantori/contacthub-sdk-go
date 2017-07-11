@@ -3,11 +3,11 @@ package client
 import (
 	"io/ioutil"
 	"net/http"
-	"reflect"
 	"strings"
 	"testing"
 
 	"github.com/guregu/null/zero"
+	"github.com/kylelemons/godebug/pretty"
 )
 
 func TestErrorResponse(t *testing.T) {
@@ -47,8 +47,8 @@ func TestErrorResponse(t *testing.T) {
 		Data:    nil,
 		Code:    zero.StringFrom("")}
 
-	if !reflect.DeepEqual(err, expected) {
-		t.Errorf("Got: %#v", err)
-		t.Errorf("Expected: %#v", expected)
+	if diff := pretty.Compare(err, expected); diff != "" {
+		t.Errorf("TestErrorResponse: invalid value for struct: (-got +expected)\n%s", diff)
 	}
+
 }
