@@ -1,11 +1,13 @@
 package client
 
 import (
+	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
 	"strconv"
 	"testing"
+	"time"
 )
 
 var (
@@ -24,6 +26,7 @@ func setup() {
 		DefaultNodeID: "fakenodeid",
 		WorkspaceID:   "fakeworkspaceid",
 		APIkey:        "fakeapikey",
+		Timeout:       2,
 	})
 	url, _ := url.Parse(mockServer.URL)
 	testClient.BaseURL = url
@@ -85,5 +88,22 @@ func TestHttpError(t *testing.T) {
 
 	if err == nil {
 		t.Error("Expected error.")
+	}
+}
+
+func TestClientTimeout(t *testing.T) {
+	setup()
+	defer teardown()
+
+	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		time.Sleep(5 * time.Second)
+		fmt.Fprint(w, "{}")
+	})
+
+	req, _ := testClient.NewRequest(http.MethodGet, "/", nil)
+	_, err := testClient.Do(req, nil)
+
+	if err == nil {
+		t.Error("Expected timeout.")
 	}
 }
