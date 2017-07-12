@@ -21,6 +21,11 @@ type Customer struct {
 	BaseProperties     *BaseProperties        `json:"base,omitempty"`
 }
 
+type customerPutRequest struct {
+	*Customer
+	ID string `json:"id,omitempty"`
+}
+
 // CustomerResponse represents a Customer as returned by the ContactHub API
 type CustomerResponse struct {
 	Customer
@@ -80,7 +85,8 @@ func (s *CustomerService) Create(customer *Customer) (*CustomerResponse, error) 
 // Update updates a Customer on ContactHub
 func (s *CustomerService) Update(ID string, customer *Customer) (*CustomerResponse, error) {
 	path := fmt.Sprintf("%s/%s", customerBasePath, ID)
-	req, err := s.client.NewRequest(http.MethodPost, path, customer)
+	customerRequest := &customerPutRequest{customer, ID}
+	req, err := s.client.NewRequest(http.MethodPut, path, customerRequest)
 	if err != nil {
 		return nil, err
 	}
