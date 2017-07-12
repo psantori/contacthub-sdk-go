@@ -11,7 +11,7 @@ import (
 
 const (
 	// DefaultTimeout is the default HTTP client timeout
-	DefaultTimeout time.Duration = 5
+	DefaultTimeout time.Duration = 5000
 	version                      = "0.0.1"
 	defaultBaseURL               = "https://api.contactlab.it/"
 	contentType                  = "application/json"
@@ -70,7 +70,7 @@ func New(config *Config) (*Client, error) {
 		config.Timeout = DefaultTimeout
 	}
 	httpClient := &http.Client{
-		Timeout: config.Timeout * time.Second,
+		Timeout: config.Timeout * time.Millisecond,
 	}
 	c := &Client{client: httpClient, BaseURL: baseURL, UserAgent: userAgent, Config: config}
 

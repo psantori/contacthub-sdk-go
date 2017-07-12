@@ -26,7 +26,7 @@ func setup() {
 		DefaultNodeID: "fakenodeid",
 		WorkspaceID:   "fakeworkspaceid",
 		APIkey:        "fakeapikey",
-		Timeout:       2,
+		Timeout:       50,
 	})
 	url, _ := url.Parse(mockServer.URL)
 	testClient.BaseURL = url
@@ -96,7 +96,7 @@ func TestClientTimeout(t *testing.T) {
 	defer teardown()
 
 	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		time.Sleep(5 * time.Second)
+		time.Sleep(100 * time.Millisecond)
 		fmt.Fprint(w, "{}")
 	})
 
