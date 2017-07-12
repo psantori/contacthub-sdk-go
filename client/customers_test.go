@@ -15,7 +15,7 @@ func TestCustomerList(t *testing.T) {
 	setup()
 	defer teardown()
 
-	response := `{"page":{"size":2,"totalElements":2,"totalUnfilteredElements":0,"totalPages":1,"number":0},"elements":[{"id":"758b6a0736350sdf972-d9cc0e815502","nodeId":"9e4dsfdsfdsfdsf3xx-fdfdfx9de4b1","externalId":null,"extra":null,"registeredAt":"2017-06-29T20:23:09.215+0000","updatedAt":"2017-06-29T20:23:09.215+0000","enabled":true,"base":{"pictureUrl":null,"title":null,"prefix":null,"firstName":"-","lastName":"-","middleName":null,"gender":null,"dob":null,"locale":null,"timezone":null,"contacts":{"email":"Erwdfgin@irizafgfgil.ie","fax":null,"mobilePhone":null,"phone":null,"otherContacts":[],"mobileDevices":[]},"address":null,"credential":null,"educations":[],"likes":[],"socialProfile":null,"jobs":[],"subscriptions":[]},"extended":null,"tags":null},{"id":"daa982b7-e02fdsf17c01b8","nodeId":"9e4dsfdsfdsfdsf3xx-fdfdfx9de4b1","externalId":null,"extra":null,"registeredAt":"2017-07-07T07:19:54.475+0000","updatedAt":"2017-07-07T07:19:54.475+0000","enabled":true,"base":{"pictureUrl":null,"title":null,"prefix":null,"firstName":"Bobb23y","lastName":"","middleName":null,"gender":null,"dob":null,"locale":null,"timezone":null,"contacts":{"email":"sdf@asdf.ict","fax":null,"mobilePhone":null,"phone":null,"otherContacts":[],"mobileDevices":[]},"address":null,"credential":{"username":"my-ussername","password":null},"educations":[],"likes":[],"socialProfile":null,"jobs":[],"subscriptions":[]},"extended":null,"tags":null}]}`
+	response := `{"page":{"size":2,"totalElements":2,"totalUnfilteredElements":0,"totalPages":1,"number":0},"elements":[{"id":"758b6a0736350sdf972-d9cc0e815502","nodeId":"fakenodeid","externalId":null,"extra":null,"registeredAt":"2017-06-29T20:23:09.215+0000","updatedAt":"2017-06-29T20:23:09.215+0000","enabled":true,"base":{"pictureUrl":null,"title":null,"prefix":null,"firstName":"-","lastName":"-","middleName":null,"gender":null,"dob":null,"locale":null,"timezone":null,"contacts":{"email":"Erwdfgin@irizafgfgil.ie","fax":null,"mobilePhone":null,"phone":null,"otherContacts":[],"mobileDevices":[]},"address":null,"credential":null,"educations":[],"likes":[],"socialProfile":null,"jobs":[],"subscriptions":[]},"extended":null,"tags":null},{"id":"daa982b7-e02fdsf17c01b8","nodeId":"fakenodeid","externalId":null,"extra":null,"registeredAt":"2017-07-07T07:19:54.475+0000","updatedAt":"2017-07-07T07:19:54.475+0000","enabled":true,"base":{"pictureUrl":null,"title":null,"prefix":null,"firstName":"Bobb23y","lastName":"","middleName":null,"gender":null,"dob":null,"locale":null,"timezone":null,"contacts":{"email":"sdf@asdf.ict","fax":null,"mobilePhone":null,"phone":null,"otherContacts":[],"mobileDevices":[]},"address":null,"credential":{"username":"my-ussername","password":null},"educations":[],"likes":[],"socialProfile":null,"jobs":[],"subscriptions":[]},"extended":null,"tags":null}]}`
 	mux.HandleFunc("/customers", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
 		testQueryStringValue(t, r, "nodeId", "fakenodeid")
@@ -43,7 +43,7 @@ func TestCustomerList(t *testing.T) {
 			RegisteredAt: CustomDate{registeredAt},
 			UpdatedAt:    CustomDate{customerAt},
 			Customer: Customer{
-				NodeID:             "9e4dsfdsfdsfdsf3xx-fdfdfx9de4b1",
+				NodeID:             "fakenodeid",
 				Enabled:            true,
 				ExtendedProperties: nil,
 				BaseProperties: &BaseProperties{
@@ -66,7 +66,7 @@ func TestCustomerList(t *testing.T) {
 			RegisteredAt: CustomDate{registeredAt2},
 			UpdatedAt:    CustomDate{customerAt2},
 			Customer: Customer{
-				NodeID:             "9e4dsfdsfdsfdsf3xx-fdfdfx9de4b1",
+				NodeID:             "fakenodeid",
 				Enabled:            true,
 				ExtendedProperties: nil,
 				BaseProperties: &BaseProperties{
@@ -110,8 +110,8 @@ func TestCustomerListByPage(t *testing.T) {
 	defer teardown()
 
 	responses := make([]string, 2)
-	responses[0] = `{"page":{"size":1,"totalElements":3,"totalUnfilteredElements":3,"totalPages":3,"number":0},"elements":[{"id":"758b6a0736350sdf972-d9cc0e815502","nodeId":"9e4dsfdsfdsfdsf3xx-fdfdfx9de4b1","externalId":null,"extra":null,"registeredAt":"2017-06-29T20:23:09.215+0000","updatedAt":"2017-06-29T20:23:09.215+0000","enabled":true,"base":{"pictureUrl":null,"title":null,"prefix":null,"firstName":"-","lastName":"-","middleName":null,"gender":null,"dob":null,"locale":null,"timezone":null,"contacts":{"email":"Erwdfgin@irizafgfgil.ie","fax":null,"mobilePhone":null,"phone":null,"otherContacts":[],"mobileDevices":[]},"address":null,"credential":null,"educations":[],"likes":[],"socialProfile":null,"jobs":[],"subscriptions":[]},"extended":null,"tags":null}]}`
-	responses[1] = `{"page":{"size":1,"totalElements":3,"totalUnfilteredElements":3,"totalPages":3,"number":1},"elements":[{"id":"758b6a0736350sdf972-d9cc0e815502","nodeId":"9e4dsfdsfdsfdsf3xx-fdfdfx9de4b1","externalId":null,"extra":null,"registeredAt":"2017-06-29T20:23:09.215+0000","updatedAt":"2017-06-29T20:23:09.215+0000","enabled":true,"base":{"pictureUrl":null,"title":null,"prefix":null,"firstName":"-","lastName":"-","middleName":null,"gender":null,"dob":null,"locale":null,"timezone":null,"contacts":{"email":"Erwdfgin@irizafgfgil.ie","fax":null,"mobilePhone":null,"phone":null,"otherContacts":[],"mobileDevices":[]},"address":null,"credential":null,"educations":[],"likes":[],"socialProfile":null,"jobs":[],"subscriptions":[]},"extended":null,"tags":null}]}`
+	responses[0] = `{"page":{"size":1,"totalElements":3,"totalUnfilteredElements":3,"totalPages":3,"number":0},"elements":[{"id":"758b6a0736350sdf972-d9cc0e815502","nodeId":"fakenodeid","externalId":null,"extra":null,"registeredAt":"2017-06-29T20:23:09.215+0000","updatedAt":"2017-06-29T20:23:09.215+0000","enabled":true,"base":{"pictureUrl":null,"title":null,"prefix":null,"firstName":"-","lastName":"-","middleName":null,"gender":null,"dob":null,"locale":null,"timezone":null,"contacts":{"email":"Erwdfgin@irizafgfgil.ie","fax":null,"mobilePhone":null,"phone":null,"otherContacts":[],"mobileDevices":[]},"address":null,"credential":null,"educations":[],"likes":[],"socialProfile":null,"jobs":[],"subscriptions":[]},"extended":null,"tags":null}]}`
+	responses[1] = `{"page":{"size":1,"totalElements":3,"totalUnfilteredElements":3,"totalPages":3,"number":1},"elements":[{"id":"758b6a0736350sdf972-d9cc0e815502","nodeId":"fakenodeid","externalId":null,"extra":null,"registeredAt":"2017-06-29T20:23:09.215+0000","updatedAt":"2017-06-29T20:23:09.215+0000","enabled":true,"base":{"pictureUrl":null,"title":null,"prefix":null,"firstName":"-","lastName":"-","middleName":null,"gender":null,"dob":null,"locale":null,"timezone":null,"contacts":{"email":"Erwdfgin@irizafgfgil.ie","fax":null,"mobilePhone":null,"phone":null,"otherContacts":[],"mobileDevices":[]},"address":null,"credential":null,"educations":[],"likes":[],"socialProfile":null,"jobs":[],"subscriptions":[]},"extended":null,"tags":null}]}`
 	mux.HandleFunc("/customers", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
 		testQueryStringValue(t, r, "nodeId", "fakenodeid")
@@ -135,7 +135,7 @@ func TestCustomerListByPage(t *testing.T) {
 func TestCustomerGet(t *testing.T) {
 	setup()
 	defer teardown()
-	response := `{"id":"my-customer-id","nodeId":"9e4dsfdsfdsfdsf3xx-fdfdfx9de4b1","externalId":null,"extra":null,"registeredAt":"2017-06-29T20:23:09.215+0000","updatedAt":"2017-06-29T20:23:09.215+0000","enabled":true,"base":{"pictureUrl":null,"title":null,"prefix":null,"firstName":"-","lastName":"-","middleName":null,"gender":null,"dob":null,"locale":null,"timezone":null,"contacts":{"email":"Erwdfgin@irizafgfgil.ie","fax":null,"mobilePhone":null,"phone":null,"otherContacts":[],"mobileDevices":[]},"address":null,"credential":null,"educations":[],"likes":[],"socialProfile":null,"jobs":[],"subscriptions":[]},"extended":null,"tags":null}`
+	response := `{"id":"my-customer-id","nodeId":"fakenodeid","externalId":null,"extra":null,"registeredAt":"2017-06-29T20:23:09.215+0000","updatedAt":"2017-06-29T20:23:09.215+0000","enabled":true,"base":{"pictureUrl":null,"title":null,"prefix":null,"firstName":"-","lastName":"-","middleName":null,"gender":null,"dob":null,"locale":null,"timezone":null,"contacts":{"email":"Erwdfgin@irizafgfgil.ie","fax":null,"mobilePhone":null,"phone":null,"otherContacts":[],"mobileDevices":[]},"address":null,"credential":null,"educations":[],"likes":[],"socialProfile":null,"jobs":[],"subscriptions":[]},"extended":null,"tags":null}`
 	mux.HandleFunc("/customers/my-customer-id", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
 		fmt.Fprint(w, response)
@@ -153,7 +153,7 @@ func TestCustomerGet(t *testing.T) {
 		RegisteredAt: CustomDate{registeredAt},
 		UpdatedAt:    CustomDate{customerAt},
 		Customer: Customer{
-			NodeID:             "9e4dsfdsfdsfdsf3xx-fdfdfx9de4b1",
+			NodeID:             "fakenodeid",
 			Enabled:            true,
 			ExtendedProperties: nil,
 			BaseProperties: &BaseProperties{
