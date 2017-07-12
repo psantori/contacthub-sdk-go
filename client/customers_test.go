@@ -230,3 +230,59 @@ func TestCustomerCreate(t *testing.T) {
 		t.Errorf("Client.Create: invalid value for struct: (-got +expected)\n%s", diff)
 	}
 }
+
+func TestCustomerUpdate(t *testing.T) {
+	setup()
+	defer teardown()
+
+	expectedRequestBody := `{"nodeId":"fakenodeid","externalId":"my-external-id","enabled":true,"extra":null,"base":{"pictureUrl":null,"title":null,"prefix":null,"firstName":"John","lastName":null,"middleName":null,"gender":null,"dob":null,"locale":null,"timezone":null},"id":"my-new-customer-id"}`
+
+	response := `{"id":"my-new-customer-id","nodeId":"fakenodeid","externalId":"my-external-id","extra":null,"registeredAt":"2022-02-22T20:22:22.215+0000","updatedAt":"2022-02-22T23:23:22.215+0000","enabled":true,"base":{"pictureUrl":null,"title":null,"prefix":null,"firstName":"John","lastName":null,"middleName":null,"gender":null,"dob":null,"locale":null,"timezone":null,"contacts":null,"address":null,"credential":null,"educations":[],"likes":[],"socialProfile":null,"jobs":[],"subscriptions":[]},"extended":null,"tags":null}`
+
+	mux.HandleFunc("/customers/my-new-customer-id", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPut)
+
+		body, _ := ioutil.ReadAll(r.Body)
+		if trimmedBody := strings.TrimSpace(string(body)); trimmedBody != expectedRequestBody {
+			t.Errorf("Client.Create: invalid body. \nGot: %v\nExpected: %v", trimmedBody, expectedRequestBody)
+		}
+		fmt.Fprint(w, response)
+	})
+	customer := Customer{
+		ExternalID: null.StringFrom("my-external-id"),
+		NodeID:     testClient.Config.DefaultNodeID,
+		Enabled:    true,
+		BaseProperties: &BaseProperties{
+			FirstName: null.StringFrom("John"),
+		},
+	}
+	customerResponse, err := testClient.Customers.Update("my-new-customer-id", &customer)
+
+	if err != nil {
+		t.Errorf("Unexpected error. Customers.Update: %v", err)
+	}
+
+	registeredAt, _ := time.Parse("2006-01-02T15:04:05.999-0700", "2022-02-22T20:22:22.215+0000")
+	updatedAt, _ := time.Parse("2006-01-02T15:04:05.999-0700", "2022-02-22T23:23:22.215+0000")
+	expectedCustomerResponse := CustomerResponse{
+		ID:           "my-new-customer-id",
+		RegisteredAt: CustomDate{registeredAt},
+		UpdatedAt:    CustomDate{updatedAt},
+		Customer: Customer{
+			Enabled:    true,
+			NodeID:     "fakenodeid",
+			ExternalID: null.StringFrom("my-external-id"),
+			BaseProperties: &BaseProperties{
+				FirstName:     null.StringFrom("John"),
+				Educations:    []Education{},
+				Likes:         []Like{},
+				Jobs:          []Job{},
+				Subscriptions: []Subscription{},
+			},
+		},
+	}
+	if diff := pretty.Compare(customerResponse, expectedCustomerResponse); diff != "" {
+		t.Errorf("Client.Create: invalid value for struct: (-got +expected)\n%s", diff)
+	}
+
+}
