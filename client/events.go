@@ -11,6 +11,7 @@ const (
 	eventBasePath = "events"
 )
 
+// Event represents a Contacthub Event
 type Event struct {
 	CustomerID        string                 `json:"customerId,required"`
 	Type              enums.EventType        `json:"type,required"`
@@ -21,6 +22,7 @@ type Event struct {
 	Date              CustomDate             `json:"date,omitempty"`
 }
 
+// BringBackProperty
 type BringBackProperty struct {
 	Type   enums.BringBackPropertyType `json:"type,required"`
 	Value  string                      `json:"value,required"`
@@ -51,11 +53,10 @@ func (s *EventService) Get(ID string) (*EventResponse, error) {
 		return nil, err
 	}
 	event := new(EventResponse)
-	resp, err := s.client.Do(req, &event)
+	_, err = s.client.Do(req, &event)
 	if err != nil {
 		return nil, err
 	}
-	defer resp.Body.Close()
 
 	return event, nil
 }
@@ -68,12 +69,10 @@ func (s *EventService) Create(event *Event) (*EventResponse, error) {
 	}
 
 	createdEvent := new(EventResponse)
-	resp, err := s.client.Do(req, createdEvent)
+	_, err = s.client.Do(req, createdEvent)
 	if err != nil {
 		return nil, err
 	}
-
-	defer resp.Body.Close()
 
 	return createdEvent, nil
 }
@@ -87,12 +86,10 @@ func (s *EventService) Update(ID string, event *Event) (*EventResponse, error) {
 	}
 
 	createdEvent := new(EventResponse)
-	resp, err := s.client.Do(req, createdEvent)
+	_, err = s.client.Do(req, createdEvent)
 	if err != nil {
 		return nil, err
 	}
-
-	defer resp.Body.Close()
 
 	return createdEvent, nil
 }
@@ -122,13 +119,11 @@ func (s *EventService) list(params *ListParams, basePath string) ([]EventRespons
 		return nil, nil, err
 	}
 
-	resp, err := s.client.Do(req, &List)
+	_, err = s.client.Do(req, &List)
 
 	if err != nil {
 		return nil, nil, err
 	}
-
-	defer resp.Body.Close()
 
 	return List.Events, &List.PageInfo, nil
 }

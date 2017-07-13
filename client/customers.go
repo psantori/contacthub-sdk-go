@@ -52,11 +52,10 @@ func (s *CustomerService) Get(ID string) (*CustomerResponse, error) {
 		return nil, err
 	}
 	customer := new(CustomerResponse)
-	resp, err := s.client.Do(req, &customer)
+	_, err = s.client.Do(req, &customer)
 	if err != nil {
 		return nil, err
 	}
-	defer resp.Body.Close()
 
 	return customer, nil
 }
@@ -72,12 +71,10 @@ func (s *CustomerService) Create(customer *Customer) (*CustomerResponse, error) 
 	}
 
 	createdCustomer := new(CustomerResponse)
-	resp, err := s.client.Do(req, createdCustomer)
+	_, err = s.client.Do(req, createdCustomer)
 	if err != nil {
 		return nil, err
 	}
-
-	defer resp.Body.Close()
 
 	return createdCustomer, nil
 }
@@ -92,12 +89,10 @@ func (s *CustomerService) Update(ID string, customer *Customer) (*CustomerRespon
 	}
 
 	createdCustomer := new(CustomerResponse)
-	resp, err := s.client.Do(req, createdCustomer)
+	_, err = s.client.Do(req, createdCustomer)
 	if err != nil {
 		return nil, err
 	}
-
-	defer resp.Body.Close()
 
 	return createdCustomer, nil
 }
@@ -127,13 +122,11 @@ func (s *CustomerService) list(params *ListParams, basePath string) ([]CustomerR
 		return nil, nil, err
 	}
 
-	resp, err := s.client.Do(req, &List)
+	_, err = s.client.Do(req, &List)
 
 	if err != nil {
 		return nil, nil, err
 	}
-
-	defer resp.Body.Close()
 
 	return List.Customers, &List.PageInfo, nil
 }

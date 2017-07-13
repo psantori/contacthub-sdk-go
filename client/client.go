@@ -4,6 +4,8 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
+	"io"
+	"io/ioutil"
 	"net/http"
 	"net/url"
 	"time"
@@ -110,6 +112,9 @@ func (c *Client) NewRequest(method, path string, body interface{}) (*http.Reques
 // Do actually perform the request
 func (c *Client) Do(req *http.Request, into interface{}) (*http.Response, error) {
 	resp, err := c.client.Do(req)
+
+	defer closeResponse(resp)
+
 	if err != nil {
 		return nil, err
 	}
@@ -151,4 +156,13 @@ func prepareBody(body interface{}) (*bytes.Buffer, error) {
 		}
 	}
 	return buf, nil
+}
+
+// closeResponse makes sure the Body was completely read and closed, in order to be able to reuse the connection
+// See https://github.com/google/go-github/pull/317
+func closeResponse(r *http.Response) {
+	if r != nil {
+		io.Copy(ioutil.Discard, r.Body)
+		r.Body.Close()
+	}
 }
