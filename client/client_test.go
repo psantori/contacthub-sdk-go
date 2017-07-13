@@ -91,6 +91,27 @@ func TestHttpError(t *testing.T) {
 	}
 }
 
+func TestEmptyBody(t *testing.T) {
+	setup()
+	defer teardown()
+
+	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(202)
+		fmt.Fprint(w, "")
+	})
+
+	req, err := testClient.NewRequest(http.MethodGet, "/", nil)
+	if err != nil {
+		t.Error("TestEmptyBody: Unexpected error.")
+	}
+
+	object := make(map[string]interface{})
+	_, err = testClient.Do(req, &object)
+	if err == nil {
+		t.Error("TestEmptyBody: Expected error.")
+	}
+}
+
 func TestClientTimeout(t *testing.T) {
 	setup()
 	defer teardown()
