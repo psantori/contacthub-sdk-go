@@ -185,9 +185,9 @@ func TestCustomerCreate(t *testing.T) {
 	setup()
 	defer teardown()
 
-	expectedRequestBody := `{"nodeId":"fakenodeid","externalId":null,"enabled":true,"extra":null}`
+	expectedRequestBody := `{"nodeId":"fakenodeid","externalId":null,"enabled":true,"extended":{"test":"value"},"extra":null}`
 
-	response := `{"id":"my-new-customer-id","nodeId":"fakenodeid","externalId":null,"extra":null,"registeredAt":"2022-02-22T20:22:22.215+0000","updatedAt":"2022-02-22T20:22:22.215+0000","enabled":true,"base":{"pictureUrl":null,"title":null,"prefix":null,"firstName":null,"lastName":null,"middleName":null,"gender":null,"dob":null,"locale":null,"timezone":null,"contacts":null,"address":null,"credential":null,"educations":[],"likes":[],"socialProfile":null,"jobs":[],"subscriptions":[]},"extended":null,"tags":null}`
+	response := `{"id":"my-new-customer-id","nodeId":"fakenodeid","externalId":null,"extra":null,"registeredAt":"2022-02-22T20:22:22.215+0000","updatedAt":"2022-02-22T20:22:22.215+0000","enabled":true,"extended":{"test":"value"},"base":{"pictureUrl":null,"title":null,"prefix":null,"firstName":null,"lastName":null,"middleName":null,"gender":null,"dob":null,"locale":null,"timezone":null,"contacts":null,"address":null,"credential":null,"educations":[],"likes":[],"socialProfile":null,"jobs":[],"subscriptions":[]},"tags":null}`
 	mux.HandleFunc("/customers", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
 
@@ -213,12 +213,18 @@ func TestCustomerCreate(t *testing.T) {
 				Jobs:          []Job{},
 				Subscriptions: []Subscription{},
 			},
+			ExtendedProperties: &map[string]interface{}{
+				"test": "value",
+			},
 		},
 	}
 
 	customer := Customer{
 		NodeID:  testClient.Config.DefaultNodeID,
 		Enabled: true,
+		ExtendedProperties: &map[string]interface{}{
+			"test": "value",
+		},
 	}
 	customerResponse, err := testClient.Customers.Create(&customer)
 
