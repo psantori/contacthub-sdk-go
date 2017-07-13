@@ -107,8 +107,8 @@ func TestEmptyBody(t *testing.T) {
 
 	object := make(map[string]interface{})
 	_, err = testClient.Do(req, &object)
-	if err == nil {
-		t.Error("TestEmptyBody: Expected error.")
+	if err != nil {
+		t.Error("TestEmptyBody: Unexpected error.")
 	}
 }
 

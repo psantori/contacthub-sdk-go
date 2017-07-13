@@ -119,17 +119,22 @@ func (c *Client) Do(req *http.Request, into interface{}) (*http.Response, error)
 		return nil, err
 	}
 
+	// Handle API errors
 	err = handleErrors(resp)
 	if err != nil {
 		return resp, err
 	}
 
+	// No decoding needed
 	if into == nil {
 		return resp, nil
 	}
 
 	if err := json.NewDecoder(resp.Body).Decode(into); err != nil {
-		return nil, err
+		if err == io.EOF {
+			err = nil
+		}
+		return resp, err
 	}
 
 	return resp, nil
