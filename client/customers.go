@@ -28,7 +28,7 @@ type customerPutRequest struct {
 
 // CustomerResponse represents a Customer as returned by the ContactHub API
 type CustomerResponse struct {
-	Customer
+	*Customer
 	ID           string     `json:"id,omitempty,required"`
 	RegisteredAt CustomDate `json:"registeredAt,omitempty"`
 	UpdatedAt    CustomDate `json:"updatedAt,omitempty"`

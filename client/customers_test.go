@@ -45,7 +45,7 @@ func TestCustomerList(t *testing.T) {
 			ID:           "758b6a0736350sdf972-d9cc0e815502",
 			RegisteredAt: CustomDate{registeredAt},
 			UpdatedAt:    CustomDate{customerAt},
-			Customer: Customer{
+			Customer: &Customer{
 				NodeID:             "fakenodeid",
 				Enabled:            true,
 				ExtendedProperties: nil,
@@ -68,7 +68,7 @@ func TestCustomerList(t *testing.T) {
 			ID:           "daa982b7-e02fdsf17c01b8",
 			RegisteredAt: CustomDate{registeredAt2},
 			UpdatedAt:    CustomDate{customerAt2},
-			Customer: Customer{
+			Customer: &Customer{
 				NodeID:             "fakenodeid",
 				Enabled:            true,
 				ExtendedProperties: nil,
@@ -155,7 +155,7 @@ func TestCustomerGet(t *testing.T) {
 		ID:           "my-customer-id",
 		RegisteredAt: CustomDate{registeredAt},
 		UpdatedAt:    CustomDate{customerAt},
-		Customer: Customer{
+		Customer: &Customer{
 			NodeID:             "fakenodeid",
 			Enabled:            true,
 			ExtendedProperties: nil,
@@ -204,7 +204,7 @@ func TestCustomerCreate(t *testing.T) {
 		ID:           "my-new-customer-id",
 		RegisteredAt: CustomDate{registeredAt},
 		UpdatedAt:    CustomDate{registeredAt},
-		Customer: Customer{
+		Customer: &Customer{
 			Enabled: true,
 			NodeID:  "fakenodeid",
 			BaseProperties: &BaseProperties{
@@ -268,7 +268,7 @@ func TestCustomerUpdate(t *testing.T) {
 		ID:           "my-new-customer-id",
 		RegisteredAt: CustomDate{registeredAt},
 		UpdatedAt:    CustomDate{updatedAt},
-		Customer: Customer{
+		Customer: &Customer{
 			Enabled:    true,
 			NodeID:     "fakenodeid",
 			ExternalID: null.StringFrom("my-external-id"),
