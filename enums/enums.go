@@ -10,6 +10,7 @@ type SchoolType int
 type SubscriptionKind int
 type EventType int
 type BringBackPropertyType int
+type EventContext int
 
 const (
 	Mobile ContactType = iota
@@ -93,4 +94,15 @@ const (
 const (
 	SessionId BringBackPropertyType = iota
 	ExternalId
+)
+
+const (
+	Web EventContext = iota
+	Ecommmerce
+	Retail
+	Social
+	DigitalCampaign
+	ContactCenter
+	IOT
+	Other
 )

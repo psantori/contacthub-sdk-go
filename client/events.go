@@ -12,11 +12,11 @@ const (
 )
 
 type Event struct {
-	EventID           string                 `json:"nodeId,required"`
-	BringBackProperty BringBackProperty      `json:"bringBackProperties,required"`
-	Type              string                 `json:"type,required"`
-	Context           string                 `json:"context,required"`
+	CustomerID        string                 `json:"customerId,required"`
+	Type              enums.EventType        `json:"type,required"`
+	Context           enums.EventContext     `json:"context,required"`
 	Properties        map[string]interface{} `json:"properties,required"`
+	BringBackProperty *BringBackProperty     `json:"bringBackProperties"`
 	ContextInfo       map[string]interface{} `json:"contextInfo,omitempty"`
 	Date              CustomDate             `json:"date,omitempty"`
 }
@@ -29,7 +29,7 @@ type BringBackProperty struct {
 
 // EventResponse represents a Event as returned by the ContactHub API
 type EventResponse struct {
-	Event
+	*Event
 	ID string `json:"id,omitempty,required"`
 }
 
