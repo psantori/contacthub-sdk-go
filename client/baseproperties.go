@@ -128,5 +128,5 @@ type Subscription struct {
 	SubscriberID null.String            `json:"subscriberId,required"`
 	RegisteredAt CustomDate             `json:"registeredAt,omitempty"`
 	UpdatedAt    CustomDate             `json:"updatedAt,omitempty"`
-	Preferences  map[string]string      `json:"preferences,omitempty"`
+	Preferences  *map[string]string     `json:"preferences,omitempty"`
 }
