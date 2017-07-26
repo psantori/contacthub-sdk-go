@@ -79,11 +79,11 @@ func (s *CustomerService) Create(customer *Customer) (*CustomerResponse, error) 
 	return createdCustomer, nil
 }
 
-// Update updates a Customer on ContactHub
+// Update updates a Customer on ContactHub, via a patch operation
 func (s *CustomerService) Update(ID string, customer *Customer) (*CustomerResponse, error) {
 	path := fmt.Sprintf("%s/%s", customerBasePath, ID)
 	customerRequest := &customerPutRequest{customer, ID}
-	req, err := s.client.NewRequest(http.MethodPut, path, customerRequest)
+	req, err := s.client.NewRequest(http.MethodPatch, path, customerRequest)
 	if err != nil {
 		return nil, err
 	}

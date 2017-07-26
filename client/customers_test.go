@@ -10,6 +10,7 @@ import (
 
 	"strings"
 
+	"github.com/contactlab/contacthub-sdk-go/nullable"
 	"github.com/guregu/null"
 	"github.com/kylelemons/godebug/pretty"
 )
@@ -50,17 +51,17 @@ func TestCustomerList(t *testing.T) {
 				Enabled:            true,
 				ExtendedProperties: nil,
 				BaseProperties: &BaseProperties{
-					FirstName: null.StringFrom("-"),
-					LastName:  null.StringFrom("-"),
+					FirstName: nullable.StringFrom("-"),
+					LastName:  nullable.StringFrom("-"),
 					Contacts: &Contacts{
-						Email:         null.StringFrom("Erwdfgin@irizafgfgil.ie"),
-						OtherContacts: []OtherContact{},
-						MobileDevices: []MobileDevice{},
+						Email:         nullable.StringFrom("Erwdfgin@irizafgfgil.ie"),
+						OtherContacts: &[]OtherContact{},
+						MobileDevices: &[]MobileDevice{},
 					},
-					Educations:    []Education{},
-					Likes:         []Like{},
-					Jobs:          []Job{},
-					Subscriptions: []Subscription{},
+					Educations:    &[]Education{},
+					Likes:         &[]Like{},
+					Jobs:          &[]Job{},
+					Subscriptions: &[]Subscription{},
 				},
 			},
 		},
@@ -73,20 +74,20 @@ func TestCustomerList(t *testing.T) {
 				Enabled:            true,
 				ExtendedProperties: nil,
 				BaseProperties: &BaseProperties{
-					FirstName: null.StringFrom("Bobb23y"),
-					LastName:  null.StringFrom(""),
+					FirstName: nullable.StringFrom("Bobb23y"),
+					LastName:  nullable.StringFrom(""),
 					Contacts: &Contacts{
-						Email:         null.StringFrom("sdf@asdf.ict"),
-						OtherContacts: []OtherContact{},
-						MobileDevices: []MobileDevice{},
+						Email:         nullable.StringFrom("sdf@asdf.ict"),
+						OtherContacts: &[]OtherContact{},
+						MobileDevices: &[]MobileDevice{},
 					},
 					Credential: &Credential{
-						Username: null.StringFrom("my-ussername"),
+						Username: nullable.StringFrom("my-ussername"),
 					},
-					Educations:    []Education{},
-					Likes:         []Like{},
-					Jobs:          []Job{},
-					Subscriptions: []Subscription{},
+					Educations:    &[]Education{},
+					Likes:         &[]Like{},
+					Jobs:          &[]Job{},
+					Subscriptions: &[]Subscription{},
 				},
 			},
 		},
@@ -160,17 +161,17 @@ func TestCustomerGet(t *testing.T) {
 			Enabled:            true,
 			ExtendedProperties: nil,
 			BaseProperties: &BaseProperties{
-				FirstName: null.StringFrom("-"),
-				LastName:  null.StringFrom("-"),
+				FirstName: nullable.StringFrom("-"),
+				LastName:  nullable.StringFrom("-"),
 				Contacts: &Contacts{
-					Email:         null.StringFrom("Erwdfgin@irizafgfgil.ie"),
-					OtherContacts: []OtherContact{},
-					MobileDevices: []MobileDevice{},
+					Email:         nullable.StringFrom("Erwdfgin@irizafgfgil.ie"),
+					OtherContacts: &[]OtherContact{},
+					MobileDevices: &[]MobileDevice{},
 				},
-				Educations:    []Education{},
-				Likes:         []Like{},
-				Jobs:          []Job{},
-				Subscriptions: []Subscription{},
+				Educations:    &[]Education{},
+				Likes:         &[]Like{},
+				Jobs:          &[]Job{},
+				Subscriptions: &[]Subscription{},
 			},
 		},
 	}
@@ -187,7 +188,7 @@ func TestCustomerCreate(t *testing.T) {
 
 	expectedRequestBody := `{"nodeId":"fakenodeid","externalId":null,"enabled":true,"extended":{"test":"value"},"extra":null}`
 
-	response := `{"id":"my-new-customer-id","nodeId":"fakenodeid","externalId":null,"extra":null,"registeredAt":"2022-02-22T20:22:22.215+0000","updatedAt":"2022-02-22T20:22:22.215+0000","enabled":true,"extended":{"test":"value"},"base":{"pictureUrl":null,"title":null,"prefix":null,"firstName":null,"lastName":null,"middleName":null,"gender":null,"dob":null,"locale":null,"timezone":null,"contacts":null,"address":null,"credential":null,"educations":[],"likes":[],"socialProfile":null,"jobs":[],"subscriptions":[]},"tags":null}`
+	response := `{"id":"my-new-customer-id","nodeId":"fakenodeid","externalId":null,"extra":null,"registeredAt":"2022-02-22T20:22:22.215+0000","updatedAt":"2022-02-22T20:22:22.215+0000","enabled":true,"extended":{"test":"value"},"base":null,"tags":null}`
 	mux.HandleFunc("/customers", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
 
@@ -207,12 +208,6 @@ func TestCustomerCreate(t *testing.T) {
 		Customer: &Customer{
 			Enabled: true,
 			NodeID:  "fakenodeid",
-			BaseProperties: &BaseProperties{
-				Educations:    []Education{},
-				Likes:         []Like{},
-				Jobs:          []Job{},
-				Subscriptions: []Subscription{},
-			},
 			ExtendedProperties: &map[string]interface{}{
 				"test": "value",
 			},
@@ -237,16 +232,70 @@ func TestCustomerCreate(t *testing.T) {
 	}
 }
 
+func TestCustomerCreateWithBaseProperties(t *testing.T) {
+	setup()
+	defer teardown()
+
+	expectedRequestBody := `{"nodeId":"fakenodeid","externalId":null,"enabled":true,"extra":null,"base":{"firstName":"John","lastName":null}}`
+
+	response := `{"id":"my-new-customer-id","nodeId":"fakenodeid","externalId":null,"extra":null,"registeredAt":"2022-02-22T20:22:22.215+0000","updatedAt":"2022-02-22T20:22:22.215+0000","enabled":true,"base":{"pictureUrl":null,"title":null,"prefix":null,"firstName":"John","lastName":null,"middleName":null,"gender":null,"dob":null,"locale":null,"timezone":null,"contacts":null,"address":null,"credential":null,"educations":[],"likes":[],"socialProfile":null,"jobs":[],"subscriptions":[]},"tags":null}`
+	mux.HandleFunc("/customers", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPost)
+
+		body, _ := ioutil.ReadAll(r.Body)
+		if trimmedBody := strings.TrimSpace(string(body)); trimmedBody != expectedRequestBody {
+			t.Errorf("Client.Create: invalid body. \nGot: %v\nExpected: %v", trimmedBody, expectedRequestBody)
+		}
+
+		fmt.Fprint(w, response)
+	})
+
+	registeredAt, _ := time.Parse("2006-01-02T15:04:05.999-0700", "2022-02-22T20:22:22.215+0000")
+	expectedCustomerResponse := CustomerResponse{
+		ID:           "my-new-customer-id",
+		RegisteredAt: CustomDate{registeredAt},
+		UpdatedAt:    CustomDate{registeredAt},
+		Customer: &Customer{
+			Enabled: true,
+			NodeID:  "fakenodeid",
+			BaseProperties: &BaseProperties{
+				FirstName:     nullable.StringFrom("John"),
+				Educations:    &[]Education{},
+				Likes:         &[]Like{},
+				Jobs:          &[]Job{},
+				Subscriptions: &[]Subscription{},
+			},
+		},
+	}
+
+	customer := Customer{
+		NodeID:  testClient.Config.DefaultNodeID,
+		Enabled: true,
+		BaseProperties: &BaseProperties{
+			FirstName: nullable.StringFrom("John"),
+			LastName:  nullable.NullString(),
+		},
+	}
+	customerResponse, err := testClient.Customers.Create(&customer)
+
+	if err != nil {
+		t.Errorf("Unexpected error. Customers.Create: %v", err)
+	}
+
+	if diff := pretty.Compare(customerResponse, expectedCustomerResponse); diff != "" {
+		t.Errorf("Client.Create: invalid value for struct: (-got +expected)\n%s", diff)
+	}
+}
+
 func TestCustomerUpdate(t *testing.T) {
 	setup()
 	defer teardown()
 
-	expectedRequestBody := `{"nodeId":"fakenodeid","externalId":"my-external-id","enabled":true,"extra":null,"base":{"pictureUrl":null,"title":null,"prefix":null,"firstName":"John","lastName":null,"middleName":null,"gender":null,"dob":null,"locale":null,"timezone":null},"id":"my-new-customer-id"}`
-
+	expectedRequestBody := `{"nodeId":"fakenodeid","externalId":"my-external-id","enabled":true,"extra":null,"base":{"pictureUrl":null,"firstName":"John"},"id":"my-new-customer-id"}`
 	response := `{"id":"my-new-customer-id","nodeId":"fakenodeid","externalId":"my-external-id","extra":null,"registeredAt":"2022-02-22T20:22:22.215+0000","updatedAt":"2022-02-22T23:23:22.215+0000","enabled":true,"base":{"pictureUrl":null,"title":null,"prefix":null,"firstName":"John","lastName":null,"middleName":null,"gender":null,"dob":null,"locale":null,"timezone":null,"contacts":null,"address":null,"credential":null,"educations":[],"likes":[],"socialProfile":null,"jobs":[],"subscriptions":[]},"extended":null,"tags":null}`
 
 	mux.HandleFunc("/customers/my-new-customer-id", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, http.MethodPut)
+		testMethod(t, r, http.MethodPatch)
 
 		body, _ := ioutil.ReadAll(r.Body)
 		if trimmedBody := strings.TrimSpace(string(body)); trimmedBody != expectedRequestBody {
@@ -259,7 +308,8 @@ func TestCustomerUpdate(t *testing.T) {
 		NodeID:     testClient.Config.DefaultNodeID,
 		Enabled:    true,
 		BaseProperties: &BaseProperties{
-			FirstName: null.StringFrom("John"),
+			FirstName:  nullable.StringFrom("John"),
+			PictureURL: nullable.NullString(),
 		},
 	}
 	customerResponse, err := testClient.Customers.Update("my-new-customer-id", &customer)
@@ -279,16 +329,15 @@ func TestCustomerUpdate(t *testing.T) {
 			NodeID:     "fakenodeid",
 			ExternalID: null.StringFrom("my-external-id"),
 			BaseProperties: &BaseProperties{
-				FirstName:     null.StringFrom("John"),
-				Educations:    []Education{},
-				Likes:         []Like{},
-				Jobs:          []Job{},
-				Subscriptions: []Subscription{},
+				FirstName:     nullable.StringFrom("John"),
+				Educations:    &[]Education{},
+				Likes:         &[]Like{},
+				Jobs:          &[]Job{},
+				Subscriptions: &[]Subscription{},
 			},
 		},
 	}
 	if diff := pretty.Compare(customerResponse, expectedCustomerResponse); diff != "" {
 		t.Errorf("Client.Create: invalid value for struct: (-got +expected)\n%s", diff)
 	}
-
 }
