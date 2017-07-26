@@ -181,6 +181,21 @@ func TestCustomerGet(t *testing.T) {
 	}
 }
 
+func TestCustomerDelete(t *testing.T) {
+	setup()
+	defer teardown()
+	response := ``
+	mux.HandleFunc("/customers/my-customer-id", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodDelete)
+		fmt.Fprint(w, response)
+	})
+
+	err := testClient.Customers.Delete("my-customer-id")
+	if err != nil {
+		t.Errorf("Unexpected error. Customers.Delete: %v", err)
+	}
+}
+
 // Needs more test cases, with different field combinations
 func TestCustomerCreate(t *testing.T) {
 	setup()

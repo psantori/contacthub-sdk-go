@@ -60,6 +60,23 @@ func (s *CustomerService) Get(ID string) (*CustomerResponse, error) {
 	return customer, nil
 }
 
+// Delete deletes a customer by the ContactHub Customer ID
+// Note: the API returns an empty body
+func (s *CustomerService) Delete(ID string) error {
+	path := fmt.Sprintf("%s/%s", customerBasePath, ID)
+	req, err := s.client.NewRequest(http.MethodDelete, path, nil)
+	if err != nil {
+		return err
+	}
+
+	_, err = s.client.Do(req, nil)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 // Create creates a new Customer on ContactHub
 func (s *CustomerService) Create(customer *Customer) (*CustomerResponse, error) {
 	if len(customer.NodeID) == 0 {
