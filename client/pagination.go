@@ -2,7 +2,7 @@ package client
 
 import "strconv"
 
-// Default page size for pagination. Max is 50.
+// DefaultPageSize is the default page size for pagination. Max is 50.
 const DefaultPageSize int = 20
 
 // PageInfo contains the pagination info from list endpoints

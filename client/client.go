@@ -131,7 +131,7 @@ func (c *Client) Do(req *http.Request, into interface{}) (*http.Response, error)
 	}
 
 	if err := json.NewDecoder(resp.Body).Decode(into); err != nil {
-		if err == io.EOF {
+		if err == io.EOF { // Empty body is not necessarily an error
 			err = nil
 		}
 		return resp, err
