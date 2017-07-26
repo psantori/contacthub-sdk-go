@@ -13,13 +13,13 @@ const (
 
 // Event represents a Contacthub Event
 type Event struct {
-	CustomerID        string                 `json:"customerId,required"`
-	Type              enums.EventType        `json:"type,required"`
-	Context           enums.EventContext     `json:"context,required"`
-	Properties        map[string]interface{} `json:"properties,required"`
-	BringBackProperty *BringBackProperty     `json:"bringBackProperties"`
-	ContextInfo       map[string]interface{} `json:"contextInfo,omitempty"`
-	Date              CustomDate             `json:"date,omitempty"`
+	CustomerID        string                  `json:"customerId,required"`
+	Type              enums.EventType         `json:"type,required"`
+	Context           enums.EventContext      `json:"context,required"`
+	Properties        map[string]interface{}  `json:"properties,required"`
+	BringBackProperty *BringBackProperty      `json:"bringBackProperties"`
+	ContextInfo       *map[string]interface{} `json:"contextInfo,omitempty"`
+	Date              *CustomDate             `json:"date,omitempty"`
 }
 
 // BringBackProperty
