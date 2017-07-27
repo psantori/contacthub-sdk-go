@@ -106,3 +106,19 @@ func (s *EventService) list(params *ListParams, basePath string) ([]EventRespons
 
 	return List.Events, &List.PageInfo, nil
 }
+
+// Delete remove an Event from ContactHub
+func (s *EventService) Delete(ID string) error {
+	path := fmt.Sprintf("%s/%s", eventBasePath, ID)
+	req, err := s.client.NewRequest(http.MethodDelete, path, nil)
+	if err != nil {
+		return err
+	}
+
+	_, err = s.client.Do(req, nil)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

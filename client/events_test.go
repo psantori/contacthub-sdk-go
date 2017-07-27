@@ -41,5 +41,19 @@ func TestEventList(t *testing.T) {
 	if diff := pretty.Compare(pageInfo, expectedPageInfo); diff != "" {
 		t.Errorf("Client.List: invalid value for struct: (-got +expected)\n%s", diff)
 	}
+}
 
+func TestEventDelete(t *testing.T) {
+	setup()
+	defer teardown()
+	response := ``
+	mux.HandleFunc("/events/my-event-id", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodDelete)
+		fmt.Fprint(w, response)
+	})
+
+	err := testClient.Events.Delete("my-event-id")
+	if err != nil {
+		t.Errorf("Unexpected error. Events.Delete: %v", err)
+	}
 }
