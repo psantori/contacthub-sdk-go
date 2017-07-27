@@ -77,23 +77,6 @@ func (s *EventService) Create(event *Event) (*EventResponse, error) {
 	return createdEvent, nil
 }
 
-// Update updates a Event on ContactHub
-func (s *EventService) Update(ID string, event *Event) (*EventResponse, error) {
-	path := fmt.Sprintf("%s/%s", eventBasePath, ID)
-	req, err := s.client.NewRequest(http.MethodPost, path, event)
-	if err != nil {
-		return nil, err
-	}
-
-	createdEvent := new(EventResponse)
-	_, err = s.client.Do(req, createdEvent)
-	if err != nil {
-		return nil, err
-	}
-
-	return createdEvent, nil
-}
-
 // List lists all events for a specified customer
 func (s *EventService) List(customerID string, params *ListParams) ([]EventResponse, PageInfo, error) {
 	params.preparePagination()
@@ -107,10 +90,6 @@ func (s *EventService) List(customerID string, params *ListParams) ([]EventRespo
 }
 
 func (s *EventService) list(params *ListParams, basePath string) ([]EventResponse, *PageInfo, error) {
-	// build url
-	/*if _, ok := params.QueryParams["nodeId"]; !ok {
-		params.QueryParams["nodeId"] = s.client.Config.DefaultNodeID
-	}*/
 	path := addQuery(basePath, params.QueryParams)
 
 	var List = &eventListResponse{}
