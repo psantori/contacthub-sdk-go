@@ -39,7 +39,7 @@ func TestEventList(t *testing.T) {
 	}
 
 	if diff := pretty.Compare(pageInfo, expectedPageInfo); diff != "" {
-		t.Errorf("Client.List: invalid value for struct: (-got +expected)\n%s", diff)
+		t.Errorf("Events.List: invalid value for struct: (-got +expected)\n%s", diff)
 	}
 }
 

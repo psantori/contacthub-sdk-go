@@ -11,15 +11,17 @@ import (
 	"strings"
 )
 
+// ErrorResponse represents an error response from the ContactHub API, which may contain multiple errors
 type ErrorResponse struct {
 	*http.Response
 	Message string      `json:"message"`
 	Logref  string      `json:"logref"`
 	Data    zero.String `json:"data"`
-	Errors  []ApiError  `json:"errors"`
+	Errors  []APIError  `json:"errors"`
 }
 
-type ApiError struct {
+// APIError contains info about a ContactHub error
+type APIError struct {
 	Message string      `json:"message,omitempty"`
 	Path    string      `json:"path,omitempty"`
 	Data    interface{} `json:"data"`

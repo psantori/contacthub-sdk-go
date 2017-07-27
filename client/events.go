@@ -22,7 +22,7 @@ type Event struct {
 	Date              *CustomDate             `json:"date,omitempty"`
 }
 
-// BringBackProperty
+// BringBackProperty represents a ContactHub event BringBackProperty, used to match the event with existing users
 type BringBackProperty struct {
 	Type   enums.BringBackPropertyType `json:"type,required"`
 	Value  string                      `json:"value,required"`

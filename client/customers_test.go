@@ -177,13 +177,14 @@ func TestCustomerGet(t *testing.T) {
 	}
 
 	if diff := pretty.Compare(customer, expected); diff != "" {
-		t.Errorf("Client.Get: invalid value for struct: (-got +expected)\n%s", diff)
+		t.Errorf("Customers.Get: invalid value for struct: (-got +expected)\n%s", diff)
 	}
 }
 
 func TestCustomerDelete(t *testing.T) {
 	setup()
 	defer teardown()
+
 	response := ``
 	mux.HandleFunc("/customers/my-customer-id", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodDelete)
