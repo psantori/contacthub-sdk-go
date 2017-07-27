@@ -52,7 +52,7 @@ func (s *CustomerService) Get(ID string) (*CustomerResponse, error) {
 		return nil, err
 	}
 	customer := new(CustomerResponse)
-	_, err = s.client.Do(req, &customer)
+	_, err = s.client.Do(req, customer)
 	if err != nil {
 		return nil, err
 	}
@@ -133,13 +133,13 @@ func (s *CustomerService) list(params *ListParams, basePath string) ([]CustomerR
 	}
 	path := addQuery(basePath, params.QueryParams)
 
-	var List = &customerListResponse{}
+	List := &customerListResponse{}
 	req, err := s.client.NewRequest(http.MethodGet, path, nil)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	_, err = s.client.Do(req, &List)
+	_, err = s.client.Do(req, List)
 
 	if err != nil {
 		return nil, nil, err

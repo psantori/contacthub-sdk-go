@@ -53,7 +53,7 @@ func (s *EventService) Get(ID string) (*EventResponse, error) {
 		return nil, err
 	}
 	event := new(EventResponse)
-	_, err = s.client.Do(req, &event)
+	_, err = s.client.Do(req, event)
 	if err != nil {
 		return nil, err
 	}
@@ -92,13 +92,13 @@ func (s *EventService) List(customerID string, params *ListParams) ([]EventRespo
 func (s *EventService) list(params *ListParams, basePath string) ([]EventResponse, *PageInfo, error) {
 	path := addQuery(basePath, params.QueryParams)
 
-	var List = &eventListResponse{}
+	List := &eventListResponse{}
 	req, err := s.client.NewRequest(http.MethodGet, path, nil)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	_, err = s.client.Do(req, &List)
+	_, err = s.client.Do(req, List)
 
 	if err != nil {
 		return nil, nil, err
