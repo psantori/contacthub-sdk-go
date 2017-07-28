@@ -11,7 +11,6 @@ import (
 	"strings"
 
 	"github.com/contactlab/contacthub-sdk-go/nullable"
-	"github.com/guregu/null"
 	"github.com/kylelemons/godebug/pretty"
 )
 
@@ -202,7 +201,7 @@ func TestCustomerCreate(t *testing.T) {
 	setup()
 	defer teardown()
 
-	expectedRequestBody := `{"nodeId":"fakenodeid","externalId":null,"enabled":true,"extended":{"test":"value"},"extra":null}`
+	expectedRequestBody := `{"nodeId":"fakenodeid","enabled":true,"extended":{"test":"value"}}`
 
 	response := `{"id":"my-new-customer-id","nodeId":"fakenodeid","externalId":null,"extra":null,"registeredAt":"2022-02-22T20:22:22.215+0000","updatedAt":"2022-02-22T20:22:22.215+0000","enabled":true,"extended":{"test":"value"},"base":null,"tags":null}`
 	mux.HandleFunc("/customers", func(w http.ResponseWriter, r *http.Request) {
@@ -252,7 +251,7 @@ func TestCustomerCreateWithBaseProperties(t *testing.T) {
 	setup()
 	defer teardown()
 
-	expectedRequestBody := `{"nodeId":"fakenodeid","externalId":null,"enabled":true,"extra":null,"base":{"firstName":"John","lastName":null}}`
+	expectedRequestBody := `{"nodeId":"fakenodeid","enabled":true,"base":{"firstName":"John","lastName":null}}`
 
 	response := `{"id":"my-new-customer-id","nodeId":"fakenodeid","externalId":null,"extra":null,"registeredAt":"2022-02-22T20:22:22.215+0000","updatedAt":"2022-02-22T20:22:22.215+0000","enabled":true,"base":{"pictureUrl":null,"title":null,"prefix":null,"firstName":"John","lastName":null,"middleName":null,"gender":null,"dob":null,"locale":null,"timezone":null,"contacts":null,"address":null,"credential":null,"educations":[],"likes":[],"socialProfile":null,"jobs":[],"subscriptions":[]},"tags":null}`
 	mux.HandleFunc("/customers", func(w http.ResponseWriter, r *http.Request) {
@@ -307,7 +306,7 @@ func TestCustomerUpdate(t *testing.T) {
 	setup()
 	defer teardown()
 
-	expectedRequestBody := `{"nodeId":"fakenodeid","externalId":"my-external-id","enabled":true,"extra":null,"base":{"pictureUrl":null,"firstName":"John"},"id":"my-new-customer-id"}`
+	expectedRequestBody := `{"nodeId":"fakenodeid","externalId":"my-external-id","enabled":true,"base":{"pictureUrl":null,"firstName":"John"},"id":"my-new-customer-id"}`
 	response := `{"id":"my-new-customer-id","nodeId":"fakenodeid","externalId":"my-external-id","extra":null,"registeredAt":"2022-02-22T20:22:22.215+0000","updatedAt":"2022-02-22T23:23:22.215+0000","enabled":true,"base":{"pictureUrl":null,"title":null,"prefix":null,"firstName":"John","lastName":null,"middleName":null,"gender":null,"dob":null,"locale":null,"timezone":null,"contacts":null,"address":null,"credential":null,"educations":[],"likes":[],"socialProfile":null,"jobs":[],"subscriptions":[]},"extended":null,"tags":null}`
 
 	mux.HandleFunc("/customers/my-new-customer-id", func(w http.ResponseWriter, r *http.Request) {
@@ -320,7 +319,7 @@ func TestCustomerUpdate(t *testing.T) {
 		fmt.Fprint(w, response)
 	})
 	customer := Customer{
-		ExternalID: null.StringFrom("my-external-id"),
+		ExternalID: nullable.StringFrom("my-external-id"),
 		NodeID:     testClient.Config.DefaultNodeID,
 		Enabled:    true,
 		BaseProperties: &BaseProperties{
@@ -343,7 +342,7 @@ func TestCustomerUpdate(t *testing.T) {
 		Customer: &Customer{
 			Enabled:    true,
 			NodeID:     "fakenodeid",
-			ExternalID: null.StringFrom("my-external-id"),
+			ExternalID: nullable.StringFrom("my-external-id"),
 			BaseProperties: &BaseProperties{
 				FirstName:     nullable.StringFrom("John"),
 				Educations:    &[]Education{},

@@ -14,10 +14,10 @@ const (
 // Customer contains all editable fields for ContactHub Customer objects
 type Customer struct {
 	NodeID             string                  `json:"nodeId,required"`
-	ExternalID         null.String             `json:"externalId,omitempty"`
+	ExternalID         *null.String            `json:"externalId,omitempty"`
 	Enabled            bool                    `json:"enabled,required"`
 	ExtendedProperties *map[string]interface{} `json:"extended,omitempty"`
-	Extra              null.String             `json:"extra,omitempty"`
+	Extra              *null.String            `json:"extra,omitempty"`
 	BaseProperties     *BaseProperties         `json:"base,omitempty"`
 }
 
