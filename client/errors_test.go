@@ -39,9 +39,9 @@ func TestErrorResponse(t *testing.T) {
 		Message:  "source customer is not valid",
 		Logref:   "xxxxx-a4bc-xxxx-a6df-xxxxxxxx",
 		Data:     zero.StringFrom(""),
-		Errors:   make([]ApiError, 1)}
+		Errors:   make([]APIError, 1)}
 
-	expected.Errors[0] = ApiError{
+	expected.Errors[0] = APIError{
 		Message: "unique customer property is required",
 		Path:    "/base/credential/username",
 		Data:    nil,
