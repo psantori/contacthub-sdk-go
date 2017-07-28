@@ -1,0 +1,10 @@
+package: github.com/contactlab/contacthub-sdk-go
+import:
+- package: github.com/guregu/null
+  version: ^3.1.0
+  subpackages:
+  - zero
+testImport:
+- package: github.com/kylelemons/godebug
+  subpackages:
+  - pretty
