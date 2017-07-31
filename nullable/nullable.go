@@ -61,3 +61,23 @@ func FloatFromPtr(s *float64) Float {
 func NullFloat() Float {
 	return FloatFromPtr(nil)
 }
+
+// Bool is a simple alias to null.Bool pointer
+type Bool *null.Bool
+
+// BoolFrom is a simple wrapper to get a pointer from guregu/null.BoolForm
+func BoolFrom(s bool) Bool {
+	nullBool := null.BoolFrom(s)
+	return &nullBool
+}
+
+// BoolFromPtr is a simple wrapper to get a pointer from guregu/null.BoolFromPtr
+func BoolFromPtr(s *bool) Bool {
+	nullBool := null.BoolFromPtr(s)
+	return &nullBool
+}
+
+// NullBool returns an invalid null.Bool, which will Marshal to a null JSON field
+func NullBool() Bool {
+	return BoolFromPtr(nil)
+}
