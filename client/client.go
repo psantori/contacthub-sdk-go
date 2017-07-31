@@ -50,6 +50,8 @@ type Client struct {
 	Customers *CustomerService
 
 	Events *EventService
+
+	Subscriptions *SubscriptionService
 }
 
 // New creates a new API client
