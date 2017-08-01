@@ -8,6 +8,8 @@ import (
 	"testing"
 	"time"
 
+	"github.com/contactlab/contacthub-sdk-go/nullable"
+
 	"github.com/contactlab/contacthub-sdk-go/enums"
 
 	"github.com/kylelemons/godebug/pretty"
@@ -52,7 +54,7 @@ func TestEventList(t *testing.T) {
 		EventResponse{
 			ID: "my-event-id1",
 			Event: &Event{
-				CustomerID: "my-customer-id",
+				CustomerID: nullable.StringFrom("my-customer-id"),
 				Type:       enums.ViewedProduct,
 				Context:    enums.Ecommerce,
 				Properties: map[string]interface{}{
@@ -77,7 +79,7 @@ func TestEventList(t *testing.T) {
 		EventResponse{
 			ID: "my-event-id2",
 			Event: &Event{
-				CustomerID: "my-customer-id",
+				CustomerID: nullable.StringFrom("my-customer-id"),
 				Type:       enums.ReviewedProduct,
 				Context:    enums.Ecommerce,
 				Properties: map[string]interface{}{
@@ -128,7 +130,7 @@ func TestEventCreate(t *testing.T) {
 	expectedEventResponse := EventResponse{
 		ID: "my-new-event-id",
 		Event: &Event{
-			CustomerID: "aaa",
+			CustomerID: nullable.StringFrom("aaa"),
 			Type:       enums.AbandonedCart,
 			Properties: map[string]interface{}{},
 			Context:    enums.Ecommerce,
@@ -137,7 +139,7 @@ func TestEventCreate(t *testing.T) {
 	}
 
 	event := Event{
-		CustomerID: "aaa",
+		CustomerID: nullable.StringFrom("aaa"),
 		Type:       enums.AbandonedCart,
 		Properties: map[string]interface{}{},
 		Context:    enums.Ecommerce,
@@ -187,7 +189,7 @@ func TestEventGet(t *testing.T) {
 	expected := EventResponse{
 		ID: "my-event-id",
 		Event: &Event{
-			CustomerID: "aaa",
+			CustomerID: nullable.StringFrom("aaa"),
 			Type:       enums.AbandonedCart,
 			Properties: map[string]interface{}{},
 			Context:    enums.Ecommerce,

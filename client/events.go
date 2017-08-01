@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/contactlab/contacthub-sdk-go/enums"
+	"github.com/guregu/null"
 )
 
 const (
@@ -13,7 +14,7 @@ const (
 
 // Event represents a Contacthub Event
 type Event struct {
-	CustomerID        string                  `json:"customerId,required"`
+	CustomerID        *null.String            `json:"customerId,omitempty"`
 	Type              enums.EventType         `json:"type,required"`
 	Context           enums.EventContext      `json:"context,required"`
 	Properties        map[string]interface{}  `json:"properties,required"`
