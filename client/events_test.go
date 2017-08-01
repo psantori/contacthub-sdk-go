@@ -2,8 +2,13 @@ package client
 
 import (
 	"fmt"
+	"io/ioutil"
 	"net/http"
+	"strings"
 	"testing"
+	"time"
+
+	"github.com/contactlab/contacthub-sdk-go/enums"
 
 	"github.com/kylelemons/godebug/pretty"
 )
@@ -43,6 +48,53 @@ func TestEventList(t *testing.T) {
 	}
 }
 
+func TestEventCreate(t *testing.T) {
+	setup()
+	defer teardown()
+
+	expectedRequestBody := `{"customerId":"aaa","type":"abandonedCart","context":"ECOMMERCE","properties":{},"bringBackProperties":null,"date":"2022-02-22T20:22:22.215+0000"}`
+	response := `{"id": "my-new-event-id", "customerId":"aaa","type":"abandonedCart","context":"ECOMMERCE","properties":{},"bringBackProperties":null, "date":"2022-02-22T20:22:22.215+0000"}`
+	mux.HandleFunc("/events", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPost)
+
+		body, _ := ioutil.ReadAll(r.Body)
+		if trimmedBody := strings.TrimSpace(string(body)); trimmedBody != expectedRequestBody {
+			t.Errorf("Client.Create: invalid body. \nGot: %v\nExpected: %v", trimmedBody, expectedRequestBody)
+		}
+
+		fmt.Fprint(w, response)
+	})
+
+	createdAt, _ := time.Parse("2006-01-02T15:04:05.999-0700", "2022-02-22T20:22:22.215+0000")
+	expectedEventResponse := EventResponse{
+		ID: "my-new-event-id",
+		Event: &Event{
+			CustomerID: "aaa",
+			Type:       enums.AbandonedCart,
+			Properties: map[string]interface{}{},
+			Context:    enums.Ecommerce,
+			Date:       &CustomDate{createdAt},
+		},
+	}
+
+	event := Event{
+		CustomerID: "aaa",
+		Type:       enums.AbandonedCart,
+		Properties: map[string]interface{}{},
+		Context:    enums.Ecommerce,
+		Date:       &CustomDate{createdAt},
+	}
+	eventResponse, err := testClient.Events.Create(&event)
+
+	if err != nil {
+		t.Errorf("Unexpected error. Events.Create: %v", err)
+	}
+
+	if diff := pretty.Compare(eventResponse, expectedEventResponse); diff != "" {
+		t.Errorf("Client.Create: invalid value for struct: (-got +expected)\n%s", diff)
+	}
+}
+
 func TestEventDelete(t *testing.T) {
 	setup()
 	defer teardown()
@@ -55,5 +107,35 @@ func TestEventDelete(t *testing.T) {
 	err := testClient.Events.Delete("my-event-id")
 	if err != nil {
 		t.Errorf("Unexpected error. Events.Delete: %v", err)
+	}
+}
+
+func TestEventGet(t *testing.T) {
+	setup()
+	defer teardown()
+	response := `{"id": "my-event-id", "customerId":"aaa","type":"abandonedCart","context":"ECOMMERCE","properties":{},"bringBackProperties":null, "date":"2022-02-22T20:22:22.215+0000"}`
+	mux.HandleFunc("/events/my-event-id", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodGet)
+		fmt.Fprint(w, response)
+	})
+
+	event, err := testClient.Events.Get("my-event-id")
+	if err != nil {
+		t.Errorf("Unexpected error. Events.Get: %v", err)
+	}
+
+	date, _ := time.Parse("2006-01-02T15:04:05.999-0700", "2022-02-22T20:22:22.215+0000")
+	expected := EventResponse{
+		ID: "my-event-id",
+		Event: &Event{
+			CustomerID: "aaa",
+			Type:       enums.AbandonedCart,
+			Properties: map[string]interface{}{},
+			Context:    enums.Ecommerce,
+			Date:       &CustomDate{date},
+		},
+	}
+	if diff := pretty.Compare(event, expected); diff != "" {
+		t.Errorf("Events.Get: invalid value for struct: (-got +expected)\n%s", diff)
 	}
 }
