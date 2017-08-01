@@ -98,7 +98,7 @@ const (
 
 const (
 	Web EventContext = iota
-	Ecommmerce
+	Ecommerce
 	Retail
 	Social
 	DigitalCampaign

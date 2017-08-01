@@ -10,7 +10,7 @@ import (
 var (
 	_EventContextNameToValue = map[string]EventContext{
 		"WEB":              Web,
-		"ECOMMERCE":        Ecommmerce,
+		"ECOMMERCE":        Ecommerce,
 		"RETAIL":           Retail,
 		"SOCIAL":           Social,
 		"DIGITAL_CAMPAIGN": DigitalCampaign,
@@ -21,7 +21,7 @@ var (
 
 	_EventContextValueToName = map[EventContext]string{
 		Web:             "WEB",
-		Ecommmerce:      "ECOMMMERCE",
+		Ecommerce:       "ECOMMERCE",
 		Retail:          "RETAIL",
 		Social:          "SOCIAL",
 		DigitalCampaign: "DIGITAL_CAMPAIGN",
@@ -36,7 +36,7 @@ func init() {
 	if _, ok := interface{}(v).(fmt.Stringer); ok {
 		_EventContextNameToValue = map[string]EventContext{
 			interface{}(Web).(fmt.Stringer).String():             Web,
-			interface{}(Ecommmerce).(fmt.Stringer).String():      Ecommmerce,
+			interface{}(Ecommerce).(fmt.Stringer).String():       Ecommerce,
 			interface{}(Retail).(fmt.Stringer).String():          Retail,
 			interface{}(Social).(fmt.Stringer).String():          Social,
 			interface{}(DigitalCampaign).(fmt.Stringer).String(): DigitalCampaign,
