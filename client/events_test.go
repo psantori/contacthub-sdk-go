@@ -113,7 +113,7 @@ func TestEventCreate(t *testing.T) {
 	setup()
 	defer teardown()
 
-	expectedRequestBody := `{"customerId":"aaa","type":"abandonedCart","context":"ECOMMERCE","properties":{},"bringBackProperties":null,"date":"2022-02-22T20:22:22.215+0000"}`
+	expectedRequestBody := `{"customerId":"aaa","type":"abandonedCart","context":"ECOMMERCE","properties":{},"date":"2022-02-22T20:22:22.215+0000"}`
 	response := `{"id": "my-new-event-id", "customerId":"aaa","type":"abandonedCart","context":"ECOMMERCE","properties":{},"bringBackProperties":null, "date":"2022-02-22T20:22:22.215+0000"}`
 	mux.HandleFunc("/events", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)

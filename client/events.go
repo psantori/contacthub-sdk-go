@@ -18,7 +18,7 @@ type Event struct {
 	Type              enums.EventType         `json:"type,required"`
 	Context           enums.EventContext      `json:"context,required"`
 	Properties        map[string]interface{}  `json:"properties,required"`
-	BringBackProperty *BringBackProperty      `json:"bringBackProperties"`
+	BringBackProperty *BringBackProperty      `json:"bringBackProperties,omitempty"`
 	ContextInfo       *map[string]interface{} `json:"contextInfo,omitempty"`
 	Date              *CustomDate             `json:"date,omitempty"`
 }
