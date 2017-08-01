@@ -7,34 +7,34 @@ import (
 
 // BaseProperties represent the base properties of a Customer.
 type BaseProperties struct {
-	PictureURL    *null.String    `json:"pictureUrl,omitempty"`
-	Title         *null.String    `json:"title,omitempty"`
-	Prefix        *null.String    `json:"prefix,omitempty"`
-	FirstName     *null.String    `json:"firstName,omitempty"`
-	LastName      *null.String    `json:"lastName,omitempty"`
-	MiddleName    *null.String    `json:"middleName,omitempty"`
-	Gender        *null.String    `json:"gender,omitempty"`
-	Dob           *SimpleDate     `json:"dob,omitempty"`
-	Locale        *null.String    `json:"locale,omitempty"`
-	TimeZone      *null.String    `json:"timezone,omitempty"`
-	Contacts      *Contacts       `json:"contacts,omitempty"`
-	Address       *Address        `json:"address,omitempty"`
-	Credential    *Credential     `json:"credential,omitempty"`
-	Educations    *[]Education    `json:"educations,omitempty"`
-	Likes         *[]Like         `json:"likes,omitempty"`
-	SocialProfile *SocialProfile  `json:"socialProfile,omitempty"`
-	Jobs          *[]Job          `json:"jobs,omitempty"`
-	Subscriptions *[]Subscription `json:"subscriptions,omitempty"`
+	PictureURL    *null.String   `json:"pictureUrl,omitempty"`
+	Title         *null.String   `json:"title,omitempty"`
+	Prefix        *null.String   `json:"prefix,omitempty"`
+	FirstName     *null.String   `json:"firstName,omitempty"`
+	LastName      *null.String   `json:"lastName,omitempty"`
+	MiddleName    *null.String   `json:"middleName,omitempty"`
+	Gender        *null.String   `json:"gender,omitempty"`
+	Dob           *SimpleDate    `json:"dob,omitempty"`
+	Locale        *null.String   `json:"locale,omitempty"`
+	TimeZone      *null.String   `json:"timezone,omitempty"`
+	Contacts      *Contacts      `json:"contacts,omitempty"`
+	Address       *Address       `json:"address,omitempty"`
+	Credential    *Credential    `json:"credential,omitempty"`
+	Educations    []Education    `json:"educations,omitempty"`
+	Likes         []Like         `json:"likes,omitempty"`
+	SocialProfile *SocialProfile `json:"socialProfile,omitempty"`
+	Jobs          []Job          `json:"jobs,omitempty"`
+	Subscriptions []Subscription `json:"subscriptions,omitempty"`
 }
 
 // Contacts are the contact info of a Customer.
 type Contacts struct {
-	Email         *null.String    `json:"email,omitempty"`
-	Fax           *null.String    `json:"fax,omitempty"`
-	MobilePhone   *null.String    `json:"mobilePhone,omitempty"`
-	Phone         *null.String    `json:"phone,omitempty"`
-	OtherContacts *[]OtherContact `json:"otherContacts,omitempty"`
-	MobileDevices *[]MobileDevice `json:"mobileDevices,omitempty"`
+	Email         *null.String   `json:"email,omitempty"`
+	Fax           *null.String   `json:"fax,omitempty"`
+	MobilePhone   *null.String   `json:"mobilePhone,omitempty"`
+	Phone         *null.String   `json:"phone,omitempty"`
+	OtherContacts []OtherContact `json:"otherContacts,omitempty"`
+	MobileDevices []MobileDevice `json:"mobileDevices,omitempty"`
 }
 
 // OtherContact is a generic contact info of a Customer.
