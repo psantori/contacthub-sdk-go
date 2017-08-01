@@ -3,11 +3,29 @@ package client
 import (
 	"fmt"
 	"net/http"
+
+	"github.com/contactlab/contacthub-sdk-go/enums"
+	"github.com/guregu/null"
 )
 
 const (
 	subscriptionBasePath = customerBasePath + "/%s/subscriptions"
 )
+
+// Subscription contains info about the Customer subscriptions
+type Subscription struct {
+	ID           string                    `json:"id,required"`
+	Name         *null.String              `json:"name,omitempty"`
+	Type         *null.String              `json:"type,omitempty"`
+	Kind         *enums.SubscriptionKind   `json:"kind,omitempty"`
+	Subscribed   *null.Bool                `json:"subscribed,omitempty"`
+	StartDate    *CustomDate               `json:"startDate,omitempty"`
+	EndDate      *CustomDate               `json:"endDate,omitempty"`
+	SubscriberID *null.String              `json:"subscriberId,omitempty"`
+	RegisteredAt *CustomDate               `json:"registeredAt,omitempty"`
+	UpdatedAt    *CustomDate               `json:"updatedAt,omitempty"`
+	Preferences  *[]map[string]interface{} `json:"preferences,omitempty"`
+}
 
 // SubscriptionResponse is actually identical to the Subscription payload
 type SubscriptionResponse Subscription

@@ -115,18 +115,3 @@ type Job struct {
 	EndDate         *SimpleDate  `json:"endDate,omitempty"`
 	IsCurrent       *null.Bool   `json:"isCurrent,omitempty"`
 }
-
-// Subscription contains info about the Customer subscriptions
-type Subscription struct {
-	ID           string                  `json:"id,required"`
-	Name         *null.String            `json:"name,omitempty"`
-	Type         *null.String            `json:"type,omitempty"`
-	Kind         *enums.SubscriptionKind `json:"kind,omitempty"`
-	Subscribed   *null.Bool              `json:"subscribed,omitempty"`
-	StartDate    *SimpleDate             `json:"startDate,omitempty"`
-	EndDate      *SimpleDate             `json:"endDate,omitempty"`
-	SubscriberID *null.String            `json:"subscriberId,required"`
-	RegisteredAt *CustomDate             `json:"registeredAt,omitempty"`
-	UpdatedAt    *CustomDate             `json:"updatedAt,omitempty"`
-	Preferences  *map[string]string      `json:"preferences,omitempty"`
-}

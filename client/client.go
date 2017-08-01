@@ -80,6 +80,7 @@ func New(config *Config) (*Client, error) {
 
 	c.Customers = &CustomerService{client: c}
 	c.Events = &EventService{client: c}
+	c.Subscriptions = &SubscriptionService{client: c}
 	return c, nil
 }
 
