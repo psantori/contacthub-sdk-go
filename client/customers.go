@@ -19,6 +19,7 @@ type Customer struct {
 	ExtendedProperties *map[string]interface{} `json:"extended,omitempty"`
 	Extra              *null.String            `json:"extra,omitempty"`
 	BaseProperties     *BaseProperties         `json:"base,omitempty"`
+	Tags               *Tags                   `json:"tags,omitempty"`
 }
 
 type customerPutRequest struct {
