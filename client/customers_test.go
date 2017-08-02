@@ -306,7 +306,7 @@ func TestCustomerUpdate(t *testing.T) {
 	setup()
 	defer teardown()
 
-	expectedRequestBody := `{"nodeId":"fakenodeid","externalId":"my-external-id","enabled":true,"base":{"pictureUrl":null,"firstName":"John"},"id":"my-new-customer-id"}`
+	expectedRequestBody := `{"externalId":"my-external-id","enabled":true,"base":{"pictureUrl":null,"firstName":"John"}}`
 	response := `{"id":"my-new-customer-id","nodeId":"fakenodeid","externalId":"my-external-id","extra":null,"registeredAt":"2022-02-22T20:22:22.215+0000","updatedAt":"2022-02-22T23:23:22.215+0000","enabled":true,"base":{"pictureUrl":null,"title":null,"prefix":null,"firstName":"John","lastName":null,"middleName":null,"gender":null,"dob":null,"locale":null,"timezone":null,"contacts":null,"address":null,"credential":null,"educations":[],"likes":[],"socialProfile":null,"jobs":[],"subscriptions":[]},"extended":null,"tags":null}`
 
 	mux.HandleFunc("/customers/my-new-customer-id", func(w http.ResponseWriter, r *http.Request) {
@@ -320,7 +320,6 @@ func TestCustomerUpdate(t *testing.T) {
 	})
 	customer := Customer{
 		ExternalID: nullable.StringFrom("my-external-id"),
-		NodeID:     testClient.Config.DefaultNodeID,
 		Enabled:    true,
 		BaseProperties: &BaseProperties{
 			FirstName:  nullable.StringFrom("John"),

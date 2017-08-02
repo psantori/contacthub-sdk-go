@@ -11,6 +11,11 @@ const (
 	customerBasePath = "customers"
 )
 
+// CustomerService provides access to the Customers API
+type CustomerService struct {
+	client *Client
+}
+
 // Customer contains all editable fields for ContactHub Customer objects
 type Customer struct {
 	NodeID             string                  `json:"nodeId,required"`
@@ -22,9 +27,24 @@ type Customer struct {
 	Tags               *Tags                   `json:"tags,omitempty"`
 }
 
-type customerPutRequest struct {
-	*Customer
-	ID string `json:"id,omitempty"`
+func (c *Customer) toPatchRequest() *customerPatchRequest {
+	return &customerPatchRequest{
+		ExternalID:         c.ExternalID,
+		Enabled:            c.Enabled,
+		ExtendedProperties: c.ExtendedProperties,
+		Extra:              c.Extra,
+		BaseProperties:     c.BaseProperties,
+		Tags:               c.Tags,
+	}
+}
+
+type customerPatchRequest struct {
+	ExternalID         *null.String            `json:"externalId,omitempty"`
+	Enabled            bool                    `json:"enabled,required"`
+	ExtendedProperties *map[string]interface{} `json:"extended,omitempty"`
+	Extra              *null.String            `json:"extra,omitempty"`
+	BaseProperties     *BaseProperties         `json:"base,omitempty"`
+	Tags               *Tags                   `json:"tags,omitempty"`
 }
 
 // CustomerResponse represents a Customer as returned by the ContactHub API
@@ -33,11 +53,6 @@ type CustomerResponse struct {
 	ID           string     `json:"id,omitempty,required"`
 	RegisteredAt CustomDate `json:"registeredAt,omitempty"`
 	UpdatedAt    CustomDate `json:"updatedAt,omitempty"`
-}
-
-// CustomerService provides access to the Customers API
-type CustomerService struct {
-	client *Client
 }
 
 type customerListResponse struct {
@@ -100,7 +115,7 @@ func (s *CustomerService) Create(customer *Customer) (*CustomerResponse, error) 
 // Update updates a Customer on ContactHub, via a patch operation
 func (s *CustomerService) Update(ID string, customer *Customer) (*CustomerResponse, error) {
 	path := fmt.Sprintf("%s/%s", customerBasePath, ID)
-	customerRequest := &customerPutRequest{customer, ID}
+	customerRequest := customer.toPatchRequest()
 	req, err := s.client.NewRequest(http.MethodPatch, path, customerRequest)
 	if err != nil {
 		return nil, err
