@@ -27,6 +27,7 @@ func setup() {
 		WorkspaceID:   "fakeworkspaceid",
 		APIkey:        "fakeapikey",
 		Timeout:       50,
+		Debug:         true,
 	})
 	url, _ := url.Parse(mockServer.URL)
 	testClient.BaseURL = url

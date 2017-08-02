@@ -4,9 +4,12 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"io"
 	"io/ioutil"
+	"log"
 	"net/http"
+	"net/http/httputil"
 	"net/url"
 	"time"
 )
@@ -27,6 +30,7 @@ type Config struct {
 	DefaultNodeID string
 	WorkspaceID   string
 	Timeout       time.Duration
+	Debug         bool
 }
 
 // QueryParams is simply a map of query paramss
@@ -98,6 +102,10 @@ func (c *Client) NewRequest(method, path string, body interface{}) (*http.Reques
 		return nil, err
 	}
 
+	if c.Config.Debug {
+		fmt.Printf("Request:\n(%s) %s\n%s\n", method, requestedURL.String(), encBody)
+	}
+
 	req, err := http.NewRequest(method, requestedURL.String(), encBody)
 	if err != nil {
 		return nil, err
@@ -122,6 +130,15 @@ func (c *Client) Do(req *http.Request, into interface{}) (*http.Response, error)
 		return nil, err
 	}
 
+	if c.Config.Debug {
+		dump, err := httputil.DumpResponse(resp, true)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		fmt.Printf("Response:\n%s\n", string(dump))
+	}
+
 	// Handle API errors
 	err = handleErrors(resp)
 	if err != nil {
@@ -137,6 +154,7 @@ func (c *Client) Do(req *http.Request, into interface{}) (*http.Response, error)
 		if err == io.EOF { // Empty body is not necessarily an error
 			err = nil
 		}
+
 		return resp, err
 	}
 
