@@ -32,8 +32,17 @@ type BringBackProperty struct {
 
 // EventResponse represents a Event as returned by the ContactHub API
 type EventResponse struct {
-	*Event
-	ID string `json:"id,omitempty,required"`
+	ID                string                  `json:"id,omitempty,required"`
+	CustomerID        *null.String            `json:"customerId,required"`
+	Type              enums.EventType         `json:"type,required"`
+	Context           enums.EventContext      `json:"context,required"`
+	Properties        map[string]interface{}  `json:"properties,required"`
+	BringBackProperty *BringBackProperty      `json:"bringBackProperties,required"`
+	ContextInfo       map[string]interface{}  `json:"contextInfo,required"`
+	Date              CustomDate              `json:"date,required"`
+	RegisteredAt      CustomDate              `json:"registeredAt,required"`
+	UpdatedAt         CustomDate              `json:"updatedAt,required"`
+	Tracking          *map[string]interface{} `json:"Tracking,omitempty"`
 }
 
 // EventService provides access to the Events API

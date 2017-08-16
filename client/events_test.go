@@ -19,7 +19,7 @@ func TestEventList(t *testing.T) {
 	setup()
 	defer teardown()
 
-	response := `{"page":{"size":2,"totalElements":10,"totalUnfilteredElements":0,"totalPages":5,"number":0},"elements":[{"id":"my-event-id1","customerId":"my-customer-id","bringBackProperties":null,"type":"viewedProduct","context":"ECOMMERCE","date":"2017-08-01T20:23:09.215+0000","properties":{"id":"999","sku":"test-something","name":"kit bundle (Test)","price":0,"imageUrl":"https://something.jpg","linkUrl":"https://store.example","shortDescription":"Test bundle","category":[]},"contextInfo":{"client":{"ip":"111.111.111.111","userAgent":"Somebrowser/1.1"}},"registeredAt":"2017-07-13T08:19:11.019+0000","updatedAt":"2017-07-13T08:19:11.019+0000","tracking":null},{"id":"my-event-id2","customerId":"my-customer-id","bringBackProperties":null,"type":"reviewedProduct","context":"ECOMMERCE","date":"2017-08-01T20:23:09.215+0000","properties":{"id":"10000","sku":"test-something2","name":"kit bundle2 (Test)","price":0,"imageUrl":"https://something2.jpg","linkUrl":"https://store.example","shortDescription":"Test bundle 2","category":[]},"contextInfo":{"client":{"ip":"111.111.111.111","userAgent":"Somebrowser/1.1"}},"registeredAt":"2017-07-13T08:19:11.01+0000","updatedAt":"2017-07-13T08:19:11.019+0000","tracking":null}]}`
+	response := `{"page":{"size":2,"totalElements":10,"totalUnfilteredElements":0,"totalPages":5,"number":0},"elements":[{"id":"my-event-id1","customerId":"my-customer-id","bringBackProperties":null,"type":"viewedProduct","context":"ECOMMERCE","date":"2017-08-01T20:23:09.215+0000","properties":{"id":"999","sku":"test-something","name":"kit bundle (Test)","price":0,"imageUrl":"https://something.jpg","linkUrl":"https://store.example","shortDescription":"Test bundle","category":[]},"contextInfo":{"client":{"ip":"111.111.111.111","userAgent":"Somebrowser/1.1"}},"registeredAt":"0001-01-01T00:00:00.00+0000","updatedAt":"0001-01-01T00:00:00.00+0000","tracking":null},{"id":"my-event-id2","customerId":"my-customer-id","bringBackProperties":null,"type":"reviewedProduct","context":"ECOMMERCE","date":"2017-08-01T20:23:09.215+0000","properties":{"id":"10000","sku":"test-something2","name":"kit bundle2 (Test)","price":0,"imageUrl":"https://something2.jpg","linkUrl":"https://store.example","shortDescription":"Test bundle 2","category":[]},"contextInfo":{"client":{"ip":"111.111.111.111","userAgent":"Somebrowser/1.1"}},"registeredAt":"0001-01-01T00:00:00.00+0000","updatedAt":"0001-01-01T00:00:00.00+0000","tracking":null}]}`
 	mux.HandleFunc("/events", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
 		testQueryStringValue(t, r, "customerId", "my-customer-id")
@@ -50,56 +50,57 @@ func TestEventList(t *testing.T) {
 	}
 	date1, _ := time.Parse("2006-01-02T15:04:05.999-0700", "2017-08-01T20:23:09.215+0000")
 	date2, _ := time.Parse("2006-01-02T15:04:05.999-0700", "2017-08-01T20:23:09.215+0000")
+	dateZero, _ := time.Parse("2006-01-02T15:04:05.999-0700", "0001-01-01T00:00:00.00+0000")
 	expectedList := []EventResponse{
 		EventResponse{
-			ID: "my-event-id1",
-			Event: &Event{
-				CustomerID: nullable.StringFrom("my-customer-id"),
-				Type:       enums.ViewedProduct,
-				Context:    enums.Ecommerce,
-				Properties: map[string]interface{}{
-					"id":               "999",
-					"sku":              "test-something",
-					"name":             "kit bundle (Test)",
-					"price":            0,
-					"imageUrl":         "https://something.jpg",
-					"linkUrl":          "https://store.example",
-					"shortDescription": "Test bundle",
-					"category":         []string{},
-				},
-				ContextInfo: &map[string]interface{}{
-					"client": map[string]interface{}{
-						"ip":        "111.111.111.111",
-						"userAgent": "Somebrowser/1.1",
-					},
-				},
-				Date: &CustomDate{date1},
+			ID:         "my-event-id1",
+			CustomerID: nullable.StringFrom("my-customer-id"),
+			Type:       enums.ViewedProduct,
+			Context:    enums.Ecommerce,
+			Properties: map[string]interface{}{
+				"id":               "999",
+				"sku":              "test-something",
+				"name":             "kit bundle (Test)",
+				"price":            0,
+				"imageUrl":         "https://something.jpg",
+				"linkUrl":          "https://store.example",
+				"shortDescription": "Test bundle",
+				"category":         []string{},
 			},
+			ContextInfo: map[string]interface{}{
+				"client": map[string]interface{}{
+					"ip":        "111.111.111.111",
+					"userAgent": "Somebrowser/1.1",
+				},
+			},
+			Date:         CustomDate{date1},
+			RegisteredAt: CustomDate{dateZero},
+			UpdatedAt:    CustomDate{dateZero},
 		},
 		EventResponse{
-			ID: "my-event-id2",
-			Event: &Event{
-				CustomerID: nullable.StringFrom("my-customer-id"),
-				Type:       enums.ReviewedProduct,
-				Context:    enums.Ecommerce,
-				Properties: map[string]interface{}{
-					"id":               "10000",
-					"sku":              "test-something2",
-					"name":             "kit bundle2 (Test)",
-					"price":            0,
-					"imageUrl":         "https://something2.jpg",
-					"linkUrl":          "https://store.example",
-					"shortDescription": "Test bundle 2",
-					"category":         []string{},
-				},
-				ContextInfo: &map[string]interface{}{
-					"client": map[string]interface{}{
-						"ip":        "111.111.111.111",
-						"userAgent": "Somebrowser/1.1",
-					},
-				},
-				Date: &CustomDate{date2},
+			ID:         "my-event-id2",
+			CustomerID: nullable.StringFrom("my-customer-id"),
+			Type:       enums.ReviewedProduct,
+			Context:    enums.Ecommerce,
+			Properties: map[string]interface{}{
+				"id":               "10000",
+				"sku":              "test-something2",
+				"name":             "kit bundle2 (Test)",
+				"price":            0,
+				"imageUrl":         "https://something2.jpg",
+				"linkUrl":          "https://store.example",
+				"shortDescription": "Test bundle 2",
+				"category":         []string{},
 			},
+			ContextInfo: map[string]interface{}{
+				"client": map[string]interface{}{
+					"ip":        "111.111.111.111",
+					"userAgent": "Somebrowser/1.1",
+				},
+			},
+			Date:         CustomDate{date2},
+			RegisteredAt: CustomDate{dateZero},
+			UpdatedAt:    CustomDate{dateZero},
 		},
 	}
 
@@ -128,14 +129,12 @@ func TestEventCreate(t *testing.T) {
 
 	createdAt, _ := time.Parse("2006-01-02T15:04:05.999-0700", "2022-02-22T20:22:22.215+0000")
 	expectedEventResponse := EventResponse{
-		ID: "my-new-event-id",
-		Event: &Event{
-			CustomerID: nullable.StringFrom("aaa"),
-			Type:       enums.AbandonedCart,
-			Properties: map[string]interface{}{},
-			Context:    enums.Ecommerce,
-			Date:       &CustomDate{createdAt},
-		},
+		ID:         "my-new-event-id",
+		CustomerID: nullable.StringFrom("aaa"),
+		Type:       enums.AbandonedCart,
+		Properties: map[string]interface{}{},
+		Context:    enums.Ecommerce,
+		Date:       CustomDate{createdAt},
 	}
 
 	event := Event{
@@ -187,14 +186,12 @@ func TestEventGet(t *testing.T) {
 
 	date, _ := time.Parse("2006-01-02T15:04:05.999-0700", "2022-02-22T20:22:22.215+0000")
 	expected := EventResponse{
-		ID: "my-event-id",
-		Event: &Event{
-			CustomerID: nullable.StringFrom("aaa"),
-			Type:       enums.AbandonedCart,
-			Properties: map[string]interface{}{},
-			Context:    enums.Ecommerce,
-			Date:       &CustomDate{date},
-		},
+		ID:         "my-event-id",
+		CustomerID: nullable.StringFrom("aaa"),
+		Type:       enums.AbandonedCart,
+		Properties: map[string]interface{}{},
+		Context:    enums.Ecommerce,
+		Date:       CustomDate{date},
 	}
 	if diff := pretty.Compare(event, expected); diff != "" {
 		t.Errorf("Events.Get: invalid value for struct: (-got +expected)\n%s", diff)
