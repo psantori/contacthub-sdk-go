@@ -27,6 +27,27 @@ type BaseProperties struct {
 	Subscriptions []Subscription `json:"subscriptions,omitempty"`
 }
 
+type BasePropertiesResponse struct {
+	PictureURL    null.String            `json:"pictureUrl,required"`
+	Title         null.String            `json:"title,required"`
+	Prefix        null.String            `json:"prefix,required"`
+	FirstName     null.String            `json:"firstName,required"`
+	LastName      null.String            `json:"lastName,required"`
+	MiddleName    null.String            `json:"middleName,required"`
+	Gender        null.String            `json:"gender,required"`
+	Dob           SimpleDate             `json:"dob,required"`
+	Locale        null.String            `json:"locale,required"`
+	TimeZone      null.String            `json:"timezone,required"`
+	Contacts      *ContactsResponse      `json:"contacts,required"`
+	Address       *AddressResponse       `json:"address,required"`
+	Credential    *CredentialResponse    `json:"credential,required"`
+	Educations    []EducationResponse    `json:"educations,required"`
+	Likes         []LikeResponse         `json:"likes,required"`
+	SocialProfile *SocialProfileResponse `json:"socialProfile,required"`
+	Jobs          []JobResponse          `json:"jobs,required"`
+	Subscriptions []SubscriptionResponse `json:"subscriptions,required"`
+}
+
 // Contacts are the contact info of a Customer.
 type Contacts struct {
 	Email         *null.String   `json:"email,omitempty"`
@@ -37,20 +58,43 @@ type Contacts struct {
 	MobileDevices []MobileDevice `json:"mobileDevices,omitempty"`
 }
 
+type ContactsResponse struct {
+	Email         null.String            `json:"email,required"`
+	Fax           null.String            `json:"fax,required"`
+	MobilePhone   null.String            `json:"mobilePhone,required"`
+	Phone         null.String            `json:"phone,required"`
+	OtherContacts []OtherContactResponse `json:"otherContacts,required"`
+	MobileDevices []MobileDeviceResponse `json:"mobileDevices,required"`
+}
+
 // OtherContact is a generic contact info of a Customer.
 type OtherContact struct {
-	Name  string             `json:"name"`
+	Name  string             `json:"name,required"`
 	Type  *enums.ContactType `json:"type,omitempty"`
-	Value string             `json:"valuetype"`
+	Value string             `json:"value,required"`
+}
+
+type OtherContactResponse struct {
+	Name  string            `json:"name,required"`
+	Type  enums.ContactType `json:"type,required"`
+	Value string            `json:"value,required"`
 }
 
 // MobileDevice contains info about a mobile device of a Customer.
 type MobileDevice struct {
-	Identifier          string                         `json:"identifier"`
-	AppID               string                         `json:"appId"`
-	Name                string                         `json:"name"`
+	Identifier          string                         `json:"identifier,required"`
+	AppID               string                         `json:"appId,required"`
+	Name                string                         `json:"name,required"`
 	Type                *enums.MobileDeviceType        `json:"type,omitempty"`
 	NotificationService *enums.NotificationServiceType `json:"notificationService,omitempty"`
+}
+
+type MobileDeviceResponse struct {
+	Identifier          string                        `json:"identifier,required"`
+	AppID               string                        `json:"appId,required"`
+	Name                string                        `json:"name,required"`
+	Type                enums.MobileDeviceType        `json:"type,required"`
+	NotificationService enums.NotificationServiceType `json:"notificationService,required"`
 }
 
 // Address contains an address of a Customer.
@@ -63,10 +107,23 @@ type Address struct {
 	Geo      *Geo         `json:"geo,omitempty"`
 }
 
+type AddressResponse struct {
+	Street   null.String `json:"street,required"`
+	City     null.String `json:"city,required"`
+	Country  null.String `json:"country,required"`
+	Province null.String `json:"province,required"`
+	Zip      null.String `json:"zip,required"`
+	Geo      *Geo        `json:"geo,required"`
+}
+
 // Geo contains the coordinate of an Address.
 type Geo struct {
 	Lat *null.Float `json:"lat,omitempty"`
 	Lon *null.Float `json:"lon,omitempty"`
+}
+type GeoResponse struct {
+	Lat null.Float `json:"lat,required"`
+	Lon null.Float `json:"lon,required"`
 }
 
 // Credential contains the credentials of a Customer.
@@ -74,6 +131,11 @@ type Geo struct {
 type Credential struct {
 	Password *null.String `json:"password,omitempty"`
 	Username *null.String `json:"username,omitempty"`
+}
+
+type CredentialResponse struct {
+	Password null.String `json:"password,required"`
+	Username null.String `json:"username,required"`
 }
 
 // Education contains the Education info of a Customer
@@ -87,12 +149,29 @@ type Education struct {
 	IsCurrent           *null.Bool        `json:"isCurrent,omitempty"`
 }
 
+type EducationResponse struct {
+	ID                  string            `json:"id,required"`
+	SchoolType          *enums.SchoolType `json:"schoolType,required"`
+	SchoolName          null.String       `json:"schoolName,required"`
+	SchoolConcentration null.String       `json:"schoolConcentration,required"`
+	StartYear           null.Int          `json:"startYear,required"`
+	EndYear             null.Int          `json:"endYear,required"`
+	IsCurrent           null.Bool         `json:"isCurrent,required"`
+}
+
 // Like represents a thing the Customer liked
 type Like struct {
 	ID          string       `json:"id,required"`
 	Category    *null.String `json:"category,omitempty"`
 	Name        *null.String `json:"name,omitempty"`
 	CreatedTime *CustomDate  `json:"createdTime,omitempty"`
+}
+
+type LikeResponse struct {
+	ID          string      `json:"id,required"`
+	Category    null.String `json:"category,required"`
+	Name        null.String `json:"name,required"`
+	CreatedTime CustomDate  `json:"createdTime,required"`
 }
 
 // SocialProfile contains all social profile of the Customer
@@ -105,6 +184,15 @@ type SocialProfile struct {
 	Twitter   *null.String `json:"twitter,omitempty"`
 }
 
+type SocialProfileResponse struct {
+	Facebook  null.String `json:"facebook,required"`
+	Google    null.String `json:"google,required"`
+	Instagram null.String `json:"instagram,required"`
+	Linkedin  null.String `json:"linkedin,required"`
+	Qzone     null.String `json:"qzone,required"`
+	Twitter   null.String `json:"twitter,required"`
+}
+
 // Job contains info about the Customer job
 type Job struct {
 	ID              string       `json:"id,required"`
@@ -114,4 +202,14 @@ type Job struct {
 	StartDate       *SimpleDate  `json:"startDate,omitempty"`
 	EndDate         *SimpleDate  `json:"endDate,omitempty"`
 	IsCurrent       *null.Bool   `json:"isCurrent,omitempty"`
+}
+
+type JobResponse struct {
+	ID              string      `json:"id,required"`
+	CompanyIndustry null.String `json:"companyIndustry,required"`
+	CompanyName     null.String `json:"companyName,required"`
+	JobTitle        null.String `json:"jobTitle,required"`
+	StartDate       SimpleDate  `json:"startDate,required"`
+	EndDate         SimpleDate  `json:"endDate,required"`
+	IsCurrent       null.Bool   `json:"isCurrent,required"`
 }

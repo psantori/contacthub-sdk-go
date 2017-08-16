@@ -55,7 +55,7 @@ type CustomerResponse struct {
 	Enabled            bool                    `json:"enabled,required"`
 	ExtendedProperties *map[string]interface{} `json:"extended,required"`
 	Extra              *null.String            `json:"extra,required"`
-	BaseProperties     *BaseProperties         `json:"base,required"`
+	BaseProperties     *BasePropertiesResponse `json:"base,required"`
 	Tags               *Tags                   `json:"tags,required"`
 	RegisteredAt       CustomDate              `json:"registeredAt,required"`
 	UpdatedAt          CustomDate              `json:"updatedAt,required"`

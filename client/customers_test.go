@@ -11,6 +11,7 @@ import (
 	"strings"
 
 	"github.com/contactlab/contacthub-sdk-go/nullable"
+	"github.com/guregu/null"
 	"github.com/kylelemons/godebug/pretty"
 )
 
@@ -48,18 +49,12 @@ func TestCustomerList(t *testing.T) {
 			NodeID:             "fakenodeid",
 			Enabled:            true,
 			ExtendedProperties: nil,
-			BaseProperties: &BaseProperties{
-				FirstName: nullable.StringFrom("-"),
-				LastName:  nullable.StringFrom("-"),
-				Contacts: &Contacts{
-					Email:         nullable.StringFrom("Erwdfgin@irizafgfgil.ie"),
-					OtherContacts: []OtherContact{},
-					MobileDevices: []MobileDevice{},
+			BaseProperties: &BasePropertiesResponse{
+				FirstName: null.StringFrom("-"),
+				LastName:  null.StringFrom("-"),
+				Contacts: &ContactsResponse{
+					Email: null.StringFrom("Erwdfgin@irizafgfgil.ie"),
 				},
-				Educations:    []Education{},
-				Likes:         []Like{},
-				Jobs:          []Job{},
-				Subscriptions: []Subscription{},
 			},
 		},
 		CustomerResponse{
@@ -69,21 +64,15 @@ func TestCustomerList(t *testing.T) {
 			NodeID:             "fakenodeid",
 			Enabled:            true,
 			ExtendedProperties: nil,
-			BaseProperties: &BaseProperties{
-				FirstName: nullable.StringFrom("Bobb23y"),
-				LastName:  nullable.StringFrom(""),
-				Contacts: &Contacts{
-					Email:         nullable.StringFrom("sdf@asdf.ict"),
-					OtherContacts: []OtherContact{},
-					MobileDevices: []MobileDevice{},
+			BaseProperties: &BasePropertiesResponse{
+				FirstName: null.StringFrom("Bobb23y"),
+				LastName:  null.StringFrom(""),
+				Contacts: &ContactsResponse{
+					Email: null.StringFrom("sdf@asdf.ict"),
 				},
-				Credential: &Credential{
-					Username: nullable.StringFrom("my-ussername"),
+				Credential: &CredentialResponse{
+					Username: null.StringFrom("my-ussername"),
 				},
-				Educations:    []Education{},
-				Likes:         []Like{},
-				Jobs:          []Job{},
-				Subscriptions: []Subscription{},
 			},
 		},
 	}
@@ -154,18 +143,12 @@ func TestCustomerGet(t *testing.T) {
 		NodeID:             "fakenodeid",
 		Enabled:            true,
 		ExtendedProperties: nil,
-		BaseProperties: &BaseProperties{
-			FirstName: nullable.StringFrom("-"),
-			LastName:  nullable.StringFrom("-"),
-			Contacts: &Contacts{
-				Email:         nullable.StringFrom("Erwdfgin@irizafgfgil.ie"),
-				OtherContacts: []OtherContact{},
-				MobileDevices: []MobileDevice{},
+		BaseProperties: &BasePropertiesResponse{
+			FirstName: null.StringFrom("-"),
+			LastName:  null.StringFrom("-"),
+			Contacts: &ContactsResponse{
+				Email: null.StringFrom("Erwdfgin@irizafgfgil.ie"),
 			},
-			Educations:    []Education{},
-			Likes:         []Like{},
-			Jobs:          []Job{},
-			Subscriptions: []Subscription{},
 		},
 	}
 
@@ -264,12 +247,8 @@ func TestCustomerCreateWithBaseProperties(t *testing.T) {
 		UpdatedAt:    CustomDate{registeredAt},
 		Enabled:      true,
 		NodeID:       "fakenodeid",
-		BaseProperties: &BaseProperties{
-			FirstName:     nullable.StringFrom("John"),
-			Educations:    []Education{},
-			Likes:         []Like{},
-			Jobs:          []Job{},
-			Subscriptions: []Subscription{},
+		BaseProperties: &BasePropertiesResponse{
+			FirstName: null.StringFrom("John"),
 		},
 	}
 
@@ -331,12 +310,8 @@ func TestCustomerUpdate(t *testing.T) {
 		Enabled:      true,
 		NodeID:       "fakenodeid",
 		ExternalID:   nullable.StringFrom("my-external-id"),
-		BaseProperties: &BaseProperties{
-			FirstName:     nullable.StringFrom("John"),
-			Educations:    []Education{},
-			Likes:         []Like{},
-			Jobs:          []Job{},
-			Subscriptions: []Subscription{},
+		BaseProperties: &BasePropertiesResponse{
+			FirstName: null.StringFrom("John"),
 		},
 	}
 	if diff := pretty.Compare(customerResponse, expectedCustomerResponse); diff != "" {
