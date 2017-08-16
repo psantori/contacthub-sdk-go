@@ -42,52 +42,48 @@ func TestCustomerList(t *testing.T) {
 	customerAt2, _ := time.Parse("2006-01-02T15:04:05.999-0700", "2017-07-07T07:19:54.475+0000")
 	expectedCustomers := []CustomerResponse{
 		CustomerResponse{
-			ID:           "758b6a0736350sdf972-d9cc0e815502",
-			RegisteredAt: CustomDate{registeredAt},
-			UpdatedAt:    CustomDate{customerAt},
-			Customer: &Customer{
-				NodeID:             "fakenodeid",
-				Enabled:            true,
-				ExtendedProperties: nil,
-				BaseProperties: &BaseProperties{
-					FirstName: nullable.StringFrom("-"),
-					LastName:  nullable.StringFrom("-"),
-					Contacts: &Contacts{
-						Email:         nullable.StringFrom("Erwdfgin@irizafgfgil.ie"),
-						OtherContacts: []OtherContact{},
-						MobileDevices: []MobileDevice{},
-					},
-					Educations:    []Education{},
-					Likes:         []Like{},
-					Jobs:          []Job{},
-					Subscriptions: []Subscription{},
+			ID:                 "758b6a0736350sdf972-d9cc0e815502",
+			RegisteredAt:       CustomDate{registeredAt},
+			UpdatedAt:          CustomDate{customerAt},
+			NodeID:             "fakenodeid",
+			Enabled:            true,
+			ExtendedProperties: nil,
+			BaseProperties: &BaseProperties{
+				FirstName: nullable.StringFrom("-"),
+				LastName:  nullable.StringFrom("-"),
+				Contacts: &Contacts{
+					Email:         nullable.StringFrom("Erwdfgin@irizafgfgil.ie"),
+					OtherContacts: []OtherContact{},
+					MobileDevices: []MobileDevice{},
 				},
+				Educations:    []Education{},
+				Likes:         []Like{},
+				Jobs:          []Job{},
+				Subscriptions: []Subscription{},
 			},
 		},
 		CustomerResponse{
-			ID:           "daa982b7-e02fdsf17c01b8",
-			RegisteredAt: CustomDate{registeredAt2},
-			UpdatedAt:    CustomDate{customerAt2},
-			Customer: &Customer{
-				NodeID:             "fakenodeid",
-				Enabled:            true,
-				ExtendedProperties: nil,
-				BaseProperties: &BaseProperties{
-					FirstName: nullable.StringFrom("Bobb23y"),
-					LastName:  nullable.StringFrom(""),
-					Contacts: &Contacts{
-						Email:         nullable.StringFrom("sdf@asdf.ict"),
-						OtherContacts: []OtherContact{},
-						MobileDevices: []MobileDevice{},
-					},
-					Credential: &Credential{
-						Username: nullable.StringFrom("my-ussername"),
-					},
-					Educations:    []Education{},
-					Likes:         []Like{},
-					Jobs:          []Job{},
-					Subscriptions: []Subscription{},
+			ID:                 "daa982b7-e02fdsf17c01b8",
+			RegisteredAt:       CustomDate{registeredAt2},
+			UpdatedAt:          CustomDate{customerAt2},
+			NodeID:             "fakenodeid",
+			Enabled:            true,
+			ExtendedProperties: nil,
+			BaseProperties: &BaseProperties{
+				FirstName: nullable.StringFrom("Bobb23y"),
+				LastName:  nullable.StringFrom(""),
+				Contacts: &Contacts{
+					Email:         nullable.StringFrom("sdf@asdf.ict"),
+					OtherContacts: []OtherContact{},
+					MobileDevices: []MobileDevice{},
 				},
+				Credential: &Credential{
+					Username: nullable.StringFrom("my-ussername"),
+				},
+				Educations:    []Education{},
+				Likes:         []Like{},
+				Jobs:          []Job{},
+				Subscriptions: []Subscription{},
 			},
 		},
 	}
@@ -152,26 +148,24 @@ func TestCustomerGet(t *testing.T) {
 	registeredAt, _ := time.Parse("2006-01-02T15:04:05.999-0700", "2017-06-29T20:23:09.215+0000")
 	customerAt, _ := time.Parse("2006-01-02T15:04:05.999-0700", "2017-06-29T20:23:09.215+0000")
 	expected := &CustomerResponse{
-		ID:           "my-customer-id",
-		RegisteredAt: CustomDate{registeredAt},
-		UpdatedAt:    CustomDate{customerAt},
-		Customer: &Customer{
-			NodeID:             "fakenodeid",
-			Enabled:            true,
-			ExtendedProperties: nil,
-			BaseProperties: &BaseProperties{
-				FirstName: nullable.StringFrom("-"),
-				LastName:  nullable.StringFrom("-"),
-				Contacts: &Contacts{
-					Email:         nullable.StringFrom("Erwdfgin@irizafgfgil.ie"),
-					OtherContacts: []OtherContact{},
-					MobileDevices: []MobileDevice{},
-				},
-				Educations:    []Education{},
-				Likes:         []Like{},
-				Jobs:          []Job{},
-				Subscriptions: []Subscription{},
+		ID:                 "my-customer-id",
+		RegisteredAt:       CustomDate{registeredAt},
+		UpdatedAt:          CustomDate{customerAt},
+		NodeID:             "fakenodeid",
+		Enabled:            true,
+		ExtendedProperties: nil,
+		BaseProperties: &BaseProperties{
+			FirstName: nullable.StringFrom("-"),
+			LastName:  nullable.StringFrom("-"),
+			Contacts: &Contacts{
+				Email:         nullable.StringFrom("Erwdfgin@irizafgfgil.ie"),
+				OtherContacts: []OtherContact{},
+				MobileDevices: []MobileDevice{},
 			},
+			Educations:    []Education{},
+			Likes:         []Like{},
+			Jobs:          []Job{},
+			Subscriptions: []Subscription{},
 		},
 	}
 
@@ -220,18 +214,16 @@ func TestCustomerCreate(t *testing.T) {
 		ID:           "my-new-customer-id",
 		RegisteredAt: CustomDate{registeredAt},
 		UpdatedAt:    CustomDate{registeredAt},
-		Customer: &Customer{
-			Enabled: true,
-			NodeID:  "fakenodeid",
-			ExtendedProperties: &map[string]interface{}{
-				"test": "value",
-			},
+		Enabled:      true,
+		NodeID:       "fakenodeid",
+		ExtendedProperties: &map[string]interface{}{
+			"test": "value",
 		},
 	}
 
 	customer := Customer{
 		NodeID:  testClient.Config.DefaultNodeID,
-		Enabled: true,
+		Enabled: nullable.BoolFrom(true),
 		ExtendedProperties: &map[string]interface{}{
 			"test": "value",
 		},
@@ -270,22 +262,20 @@ func TestCustomerCreateWithBaseProperties(t *testing.T) {
 		ID:           "my-new-customer-id",
 		RegisteredAt: CustomDate{registeredAt},
 		UpdatedAt:    CustomDate{registeredAt},
-		Customer: &Customer{
-			Enabled: true,
-			NodeID:  "fakenodeid",
-			BaseProperties: &BaseProperties{
-				FirstName:     nullable.StringFrom("John"),
-				Educations:    []Education{},
-				Likes:         []Like{},
-				Jobs:          []Job{},
-				Subscriptions: []Subscription{},
-			},
+		Enabled:      true,
+		NodeID:       "fakenodeid",
+		BaseProperties: &BaseProperties{
+			FirstName:     nullable.StringFrom("John"),
+			Educations:    []Education{},
+			Likes:         []Like{},
+			Jobs:          []Job{},
+			Subscriptions: []Subscription{},
 		},
 	}
 
 	customer := Customer{
 		NodeID:  testClient.Config.DefaultNodeID,
-		Enabled: true,
+		Enabled: nullable.BoolFrom(true),
 		BaseProperties: &BaseProperties{
 			FirstName: nullable.StringFrom("John"),
 			LastName:  nullable.NullString(),
@@ -320,7 +310,7 @@ func TestCustomerUpdate(t *testing.T) {
 	})
 	customer := Customer{
 		ExternalID: nullable.StringFrom("my-external-id"),
-		Enabled:    true,
+		Enabled:    nullable.BoolFrom(true),
 		BaseProperties: &BaseProperties{
 			FirstName:  nullable.StringFrom("John"),
 			PictureURL: nullable.NullString(),
@@ -338,17 +328,15 @@ func TestCustomerUpdate(t *testing.T) {
 		ID:           "my-new-customer-id",
 		RegisteredAt: CustomDate{registeredAt},
 		UpdatedAt:    CustomDate{updatedAt},
-		Customer: &Customer{
-			Enabled:    true,
-			NodeID:     "fakenodeid",
-			ExternalID: nullable.StringFrom("my-external-id"),
-			BaseProperties: &BaseProperties{
-				FirstName:     nullable.StringFrom("John"),
-				Educations:    []Education{},
-				Likes:         []Like{},
-				Jobs:          []Job{},
-				Subscriptions: []Subscription{},
-			},
+		Enabled:      true,
+		NodeID:       "fakenodeid",
+		ExternalID:   nullable.StringFrom("my-external-id"),
+		BaseProperties: &BaseProperties{
+			FirstName:     nullable.StringFrom("John"),
+			Educations:    []Education{},
+			Likes:         []Like{},
+			Jobs:          []Job{},
+			Subscriptions: []Subscription{},
 		},
 	}
 	if diff := pretty.Compare(customerResponse, expectedCustomerResponse); diff != "" {

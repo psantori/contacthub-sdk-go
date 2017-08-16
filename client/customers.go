@@ -20,7 +20,7 @@ type CustomerService struct {
 type Customer struct {
 	NodeID             string                  `json:"nodeId,required"`
 	ExternalID         *null.String            `json:"externalId,omitempty"`
-	Enabled            bool                    `json:"enabled,required"`
+	Enabled            *null.Bool              `json:"enabled,omitempty"`
 	ExtendedProperties *map[string]interface{} `json:"extended,omitempty"`
 	Extra              *null.String            `json:"extra,omitempty"`
 	BaseProperties     *BaseProperties         `json:"base,omitempty"`
@@ -40,7 +40,7 @@ func (c *Customer) toPatchRequest() *customerPatchRequest {
 
 type customerPatchRequest struct {
 	ExternalID         *null.String            `json:"externalId,omitempty"`
-	Enabled            bool                    `json:"enabled,required"`
+	Enabled            *null.Bool              `json:"enabled,omitempty"`
 	ExtendedProperties *map[string]interface{} `json:"extended,omitempty"`
 	Extra              *null.String            `json:"extra,omitempty"`
 	BaseProperties     *BaseProperties         `json:"base,omitempty"`
@@ -49,10 +49,16 @@ type customerPatchRequest struct {
 
 // CustomerResponse represents a Customer as returned by the ContactHub API
 type CustomerResponse struct {
-	*Customer
-	ID           string     `json:"id,omitempty,required"`
-	RegisteredAt CustomDate `json:"registeredAt,omitempty"`
-	UpdatedAt    CustomDate `json:"updatedAt,omitempty"`
+	ID                 string                  `json:"id,omitempty,required"`
+	NodeID             string                  `json:"nodeId,required"`
+	ExternalID         *null.String            `json:"externalId,required"`
+	Enabled            bool                    `json:"enabled,required"`
+	ExtendedProperties *map[string]interface{} `json:"extended,required"`
+	Extra              *null.String            `json:"extra,required"`
+	BaseProperties     *BaseProperties         `json:"base,required"`
+	Tags               *Tags                   `json:"tags,required"`
+	RegisteredAt       CustomDate              `json:"registeredAt,required"`
+	UpdatedAt          CustomDate              `json:"updatedAt,required"`
 }
 
 type customerListResponse struct {
