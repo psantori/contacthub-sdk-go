@@ -49,8 +49,19 @@ type Subscription struct {
 	Preferences  *[]map[string]interface{} `json:"preferences,omitempty"`
 }
 
-// SubscriptionResponse is actually identical to the Subscription payload
-type SubscriptionResponse Subscription
+type SubscriptionResponse struct {
+	ID           string                    `json:"id,required"`
+	Name         null.String               `json:"name,required"`
+	Type         null.String               `json:"type,required"`
+	Kind         *enums.SubscriptionKind   `json:"kind,required"`
+	Subscribed   null.Bool                 `json:"subscribed,required"`
+	StartDate    *CustomDate               `json:"startDate,required"`
+	EndDate      *CustomDate               `json:"endDate,required"`
+	SubscriberID null.String               `json:"subscriberId,required"`
+	RegisteredAt *CustomDate               `json:"registeredAt,required"`
+	UpdatedAt    *CustomDate               `json:"updatedAt,required"`
+	Preferences  *[]map[string]interface{} `json:"preferences,required"`
+}
 
 // SubscriptionService provides access to the Subscriptions API
 type SubscriptionService struct {
@@ -90,10 +101,10 @@ func (s *SubscriptionService) Create(customerID string, subscription *Subscripti
 	return createdSubscription, nil
 }
 
-// Update updates a Subscription via a patch operation
+// Update updates a Subscription via a put operation
 func (s *SubscriptionService) Update(customerID, ID string, subscription *Subscription) (*SubscriptionResponse, error) {
 	path := fmt.Sprintf(subscriptionBasePath, customerID) + "/" + ID
-	req, err := s.client.NewRequest(http.MethodPatch, path, subscription)
+	req, err := s.client.NewRequest(http.MethodPut, path, subscription)
 	if err != nil {
 		return nil, err
 	}
