@@ -1,0 +1,13 @@
+hash: a5025b47834a5f7e2ea17b54ce8bf31521eebcc23dde74007cd8f780cf878702
+updated: 2017-08-18T11:41:14.562202292+02:00
+imports:
+- name: github.com/guregu/null
+  version: 41961cea0328defc5f95c1c473f89ebf0d1813f6
+  subpackages:
+  - zero
+testImports:
+- name: github.com/kylelemons/godebug
+  version: a616ab194758ae0a11290d87ca46ee8c440117b0
+  subpackages:
+  - diff
+  - pretty
