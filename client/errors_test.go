@@ -61,13 +61,15 @@ func TestErrorResponse(t *testing.T) {
 		Message:  "source customer is not valid",
 		Logref:   "xxxxx-a4bc-xxxx-a6df-xxxxxxxx",
 		Data:     zero.StringFrom(""),
-		Errors:   make([]APIError, 1)}
-
-	expected.Errors[0] = APIError{
-		Message: "unique customer property is required",
-		Path:    "/base/credential/username",
-		Data:    nil,
-		Code:    zero.StringFrom("")}
+		Errors: []APIError{
+			{
+				Message: "unique customer property is required",
+				Path:    "/base/credential/username",
+				Data:    nil,
+				Code:    zero.StringFrom(""),
+			},
+		},
+	}
 
 	if diff := pretty.Compare(err, expected); diff != "" {
 		t.Errorf("TestErrorResponse: invalid value for struct: (-got +expected)\n%s", diff)
