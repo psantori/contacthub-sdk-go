@@ -178,24 +178,3 @@ type SocialProfileResponse struct {
 	Qzone     null.String `json:"qzone,required"`
 	Twitter   null.String `json:"twitter,required"`
 }
-
-// Job contains info about the Customer job
-type Job struct {
-	ID              string       `json:"id,required"`
-	CompanyIndustry *null.String `json:"companyIndustry,omitempty"`
-	CompanyName     *null.String `json:"companyName,omitempty"`
-	JobTitle        *null.String `json:"jobTitle,omitempty"`
-	StartDate       *SimpleDate  `json:"startDate,omitempty"`
-	EndDate         *SimpleDate  `json:"endDate,omitempty"`
-	IsCurrent       *null.Bool   `json:"isCurrent,omitempty"`
-}
-
-type JobResponse struct {
-	ID              string      `json:"id,required"`
-	CompanyIndustry null.String `json:"companyIndustry,required"`
-	CompanyName     null.String `json:"companyName,required"`
-	JobTitle        null.String `json:"jobTitle,required"`
-	StartDate       SimpleDate  `json:"startDate,required"`
-	EndDate         SimpleDate  `json:"endDate,required"`
-	IsCurrent       null.Bool   `json:"isCurrent,required"`
-}
