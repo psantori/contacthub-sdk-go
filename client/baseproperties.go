@@ -160,27 +160,6 @@ type CredentialResponse struct {
 	Username null.String `json:"username,required"`
 }
 
-// Education contains the Education info of a Customer
-type Education struct {
-	ID                  string            `json:"id,required"`
-	SchoolType          *enums.SchoolType `json:"schoolType,omitempty"`
-	SchoolName          *null.String      `json:"schoolName,omitempty"`
-	SchoolConcentration *null.String      `json:"schoolConcentration,omitempty"`
-	StartYear           *null.Int         `json:"startYear,omitempty"`
-	EndYear             *null.Int         `json:"endYear,omitempty"`
-	IsCurrent           *null.Bool        `json:"isCurrent,omitempty"`
-}
-
-type EducationResponse struct {
-	ID                  string            `json:"id,required"`
-	SchoolType          *enums.SchoolType `json:"schoolType,required"`
-	SchoolName          null.String       `json:"schoolName,required"`
-	SchoolConcentration null.String       `json:"schoolConcentration,required"`
-	StartYear           null.Int          `json:"startYear,required"`
-	EndYear             null.Int          `json:"endYear,required"`
-	IsCurrent           null.Bool         `json:"isCurrent,required"`
-}
-
 // SocialProfile contains all social profile of the Customer
 type SocialProfile struct {
 	Facebook  *null.String `json:"facebook,omitempty"`

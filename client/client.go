@@ -82,6 +82,8 @@ type Client struct {
 	Sessions *SessionService
 
 	Likes *LikeService
+
+	Educations *EducationService
 }
 
 // New creates a new API client
@@ -113,6 +115,7 @@ func New(config *Config) (*Client, error) {
 	c.Subscriptions = &SubscriptionService{c}
 	c.Sessions = &SessionService{c}
 	c.Likes = &LikeService{c}
+	c.Educations = &EducationService{c}
 	return c, nil
 }
 
