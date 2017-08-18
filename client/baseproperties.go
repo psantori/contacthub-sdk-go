@@ -181,21 +181,6 @@ type EducationResponse struct {
 	IsCurrent           null.Bool         `json:"isCurrent,required"`
 }
 
-// Like represents a thing the Customer liked
-type Like struct {
-	ID          string       `json:"id,required"`
-	Category    *null.String `json:"category,omitempty"`
-	Name        *null.String `json:"name,omitempty"`
-	CreatedTime *CustomDate  `json:"createdTime,omitempty"`
-}
-
-type LikeResponse struct {
-	ID          string      `json:"id,required"`
-	Category    null.String `json:"category,required"`
-	Name        null.String `json:"name,required"`
-	CreatedTime CustomDate  `json:"createdTime,required"`
-}
-
 // SocialProfile contains all social profile of the Customer
 type SocialProfile struct {
 	Facebook  *null.String `json:"facebook,omitempty"`
