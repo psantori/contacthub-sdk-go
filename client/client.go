@@ -78,6 +78,8 @@ type Client struct {
 	Events *EventService
 
 	Subscriptions *SubscriptionService
+
+	Sessions *SessionService
 }
 
 // New creates a new API client
@@ -104,9 +106,10 @@ func New(config *Config) (*Client, error) {
 	}
 	c := &Client{client: httpClient, BaseURL: baseURL, UserAgent: userAgent, Config: config}
 
-	c.Customers = &CustomerService{client: c}
-	c.Events = &EventService{client: c}
-	c.Subscriptions = &SubscriptionService{client: c}
+	c.Customers = &CustomerService{c}
+	c.Events = &EventService{c}
+	c.Subscriptions = &SubscriptionService{c}
+	c.Sessions = &SessionService{c}
 	return c, nil
 }
 
