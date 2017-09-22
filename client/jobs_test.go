@@ -62,9 +62,6 @@ func TestJobCreate(t *testing.T) {
 		EndDate:         nil,
 	}
 
-	json, _ := expectedJobResponse.StartDate.MarshalJSON()
-	fmt.Println(string(json))
-
 	job := Job{
 		ID:              "job",
 		IsCurrent:       nullable.BoolFrom(true),
