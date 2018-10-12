@@ -30,6 +30,7 @@ import (
 var (
 	_EventContextNameToValue = map[string]EventContext{
 		"WEB":              Web,
+		"MOBILE":           MobileCtx,
 		"ECOMMERCE":        Ecommerce,
 		"RETAIL":           Retail,
 		"SOCIAL":           Social,
@@ -41,6 +42,7 @@ var (
 
 	_EventContextValueToName = map[EventContext]string{
 		Web:             "WEB",
+		MobileCtx:       "MOBILE",
 		Ecommerce:       "ECOMMERCE",
 		Retail:          "RETAIL",
 		Social:          "SOCIAL",
